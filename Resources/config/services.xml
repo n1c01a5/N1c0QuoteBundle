@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="n1c0_quote.model.quote.class">N1c0\QuoteBundle\Entity\Quote</parameter>
+        
+        <parameter key="n1c0_quote.manager.quote.default.class">N1c0\QuoteBundle\Entity\QuoteManager</parameter>
+        <parameter key="n1c0_quote.listener.quote_blamer.class">N1c0\QuoteBundle\EventListener\QuoteBlamerListener</parameter>
+        <parameter key="n1c0_quote.comment.quote_comment.class">N1c0\QuoteBundle\Comment\Thread</parameter>
+        <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
+        <parameter key="n1c0_quote.manager.quote.acl.class">N1c0\QuoteBundle\Acl\AclQuoteManager</parameter>
+        <parameter key="n1c0_quote.download.quote.class">N1c0\QuoteBundle\Download\DownloadQuote</parameter>
+    </parameters>
+
+    <services>
+        <service id="n1c0_quote.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
+            <argument>%n1c0_quote.model_manager_name%</argument>
+        </service>
+    
+        <service id="n1c0_quote.manager.quote.default" class="%n1c0_quote.manager.quote.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_quote.entity_manager" />
+            <argument>%n1c0_quote.model.quote.class%</argument>
+        </service>
+
+        <service id="n1c0_quote.form_type.quote.default" class="N1c0\QuoteBundle\Form\QuoteType">
+            <argument>%n1c0_quote.model.quote.class%</argument>
+            <tag name="form.type" alias="n1c0_quote_quote" />
+        </service>
+
+        <service id="n1c0_quote.form_factory.quote.default" class="N1c0\QuoteBundle\FormFactory\QuoteFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_quote.form.quote.type%</argument>
+            <argument>%n1c0_quote.form.quote.name%</argument>
+        </service>
+
+        <service id="n1c0_quote.listener.quote_blamer" class="%n1c0_quote.listener.quote_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="n1c0_quote.comment.quote_comment.default" class="%n1c0_quote.comment.quote_comment.class%">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="fos_comment.manager.thread" on-invalid="null" />
+            <argument type="service" id="fos_comment.manager.comment" on-invalid="null" />
+        </service>
+
+        <service id="n1c0_quote.acl.quote.security" class="N1c0\QuoteBundle\Acl\SecurityQuoteAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_quote.model.quote.class%</argument>
+        </service>
+
+        <service id="n1c0_quote.acl.quote.roles" class="N1c0\QuoteBundle\Acl\RoleQuoteAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_quote.model.quote.class%</argument>
+        </service>
+
+        <service id="n1c0_quote.manager.quote.acl" class="%n1c0_quote.manager.quote.acl.class%" public="false">
+            <argument type="service" id="n1c0_quote.manager.quote.default" />
+            <argument type="service" id="n1c0_quote.acl.quote" />
+        </service>
+
+        <service id="n1c0_quote.listener.quote_markup" class="N1c0\QuoteBundle\EventListener\QuoteMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_quote.markup" />
+        </service>
+
+        <service id="n1c0_quote.quote.download" class="%n1c0_quote.download.quote.class%">
+            <argument type="service" id="n1c0_quote.manager.quote" on-invalid="null" />
+        </service>
+    </services>
+
+</container>

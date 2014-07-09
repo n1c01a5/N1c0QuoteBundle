@@ -1,0 +1,11 @@
+# src/N1c0/QuoteBundle/Resources/config/validation.yml
+N1c0\QuoteBundle\Entity\Quote:
+    properties:
+        title:
+            - NotBlank: ~
+            - NotNull: ~
+            - Length:
+                min: 2
+                max: 100
+                minMessage: "Your title must be at least {{ limit }} characters length"
+                maxMessage: "Your title name cannot be longer than {{ limit }} characters length"

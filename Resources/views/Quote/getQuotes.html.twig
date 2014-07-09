@@ -1,0 +1,11 @@
+<h1 class="title">{{ 'quote.list'|trans({}, 'n1c0QuoteBundle') }}</h1>
+<ul id="quote-list">
+{% for quote in quotes %}
+    <li>
+        <a href="{{ path('api_1_get_quote', {'id': quote.id}) }}">{{ quote.title }}</a>
+        {#[<a href="{{ path('api_1_edit_quotes', {'id': quote.id}) }}">{{ 'quote.edit.link'|trans({}, 'n1c0QuoteBundle') }}</a>]#}
+        {#[<a href="{{ path('api_1_remove_quotes', {'id': quote.id}) }}">{{ 'quote.remove.link'|trans({}, 'n1c0QuoteBundle') }}</a>]#}
+    </li>
+{% endfor %}
+</ul>
+<p><a href="{{ path('api_1_new_quote') }}">{{ 'quote.new.link'|trans({}, 'n1c0QuoteBundle') }}</a></p>
