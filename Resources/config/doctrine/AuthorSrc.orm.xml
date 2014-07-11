@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+                        xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+
+    <mapped-superclass name="N1c0\QuoteBundle\Entity\AuthorSrc">
+
+        <field name="name" column="name" type="string" />
+
+        <field name="firstname" column="firstname" type="string" />
+        
+        <field name="birthday" column="birthday" type="datetime" />
+        
+        <field name="website" column="website" type="string" />
+
+        <field name="bio" column="bio" type="text">
+            <gedmo:versioned/>
+        </field>
+
+        <gedmo:loggable log-entry-class="Gedmo\Loggable\Entity\LogEntry"/>
+
+    </mapped-superclass>
+
+</doctrine-mapping>

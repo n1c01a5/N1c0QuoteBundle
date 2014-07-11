@@ -7,12 +7,21 @@
 
     <parameters>
         <parameter key="n1c0_quote.model.quote.class">N1c0\QuoteBundle\Entity\Quote</parameter>
+        <parameter key="n1c0_quote.model.authorsrc.class">N1c0\QuoteBundle\Entity\AuthorSrc</parameter>
+        <parameter key="n1c0_quote.model.housepublishing.class">N1c0\QuoteBundle\Entity\HousePublishing</parameter>
+        <parameter key="n1c0_quote.model.tags.class">N1c0\QuoteBundle\Entity\Tags</parameter>
         
         <parameter key="n1c0_quote.manager.quote.default.class">N1c0\QuoteBundle\Entity\QuoteManager</parameter>
+        <parameter key="n1c0_quote.manager.authorsrc.default.class">N1c0\QuoteBundle\Entity\AuthorSrc</parameter>
+        <parameter key="n1c0_quote.manager.housepublishing.default.class">N1c0\QuoteBundle\Entity\HousePublishing</parameter>
+        <parameter key="n1c0_quote.manager.tags.default.class">N1c0\QuoteBundle\Entity\Tags</parameter>
         <parameter key="n1c0_quote.listener.quote_blamer.class">N1c0\QuoteBundle\EventListener\QuoteBlamerListener</parameter>
         <parameter key="n1c0_quote.comment.quote_comment.class">N1c0\QuoteBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
         <parameter key="n1c0_quote.manager.quote.acl.class">N1c0\QuoteBundle\Acl\AclQuoteManager</parameter>
+        <parameter key="n1c0_quote.manager.authorsrc.acl.class">N1c0\QuoteBundle\Acl\AclAuthorSrcManager</parameter>
+        <parameter key="n1c0_quote.manager.housepublishing.acl.class">N1c0\QuoteBundle\Acl\AclHousePublishingManager</parameter>
+        <parameter key="n1c0_quote.manager.tags.acl.class">N1c0\QuoteBundle\Acl\AclTagsManager</parameter>
         <parameter key="n1c0_quote.download.quote.class">N1c0\QuoteBundle\Download\DownloadQuote</parameter>
     </parameters>
 
@@ -27,6 +36,23 @@
             <argument>%n1c0_quote.model.quote.class%</argument>
         </service>
 
+        <service id="n1c0_quote.manager.authorsrc.default" class="%n1c0_quote.manager.authorsrc.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_quote.entity_manager" />
+            <argument>%n1c0_quote.model.authorsrc.class%</argument>
+        </service>
+        <service id="n1c0_quote.manager.housepublishing.default" class="%n1c0_quote.manager.housepublishing.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_quote.entity_manager" />
+            <argument>%n1c0_quote.model.housepublishing.class%</argument>
+        </service>
+        <service id="n1c0_quote.manager.tags.default" class="%n1c0_quote.manager.tags.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_quote.entity_manager" />
+            <argument>%n1c0_quote.model.tags.class%</argument>
+        </service>
+
+
         <service id="n1c0_quote.form_type.quote.default" class="N1c0\QuoteBundle\Form\QuoteType">
             <argument>%n1c0_quote.model.quote.class%</argument>
             <tag name="form.type" alias="n1c0_quote_quote" />
@@ -36,6 +62,39 @@
             <argument type="service" id="form.factory" />
             <argument>%n1c0_quote.form.quote.type%</argument>
             <argument>%n1c0_quote.form.quote.name%</argument>
+        </service>
+
+        <service id="n1c0_quote.form_type.authorsrc.default" class="N1c0\QuoteBundle\Form\AuthorSrcType">
+            <argument>%n1c0_quote.model.authorsrc.class%</argument>
+            <tag name="form.type" alias="n1c0_quote_authorsrc" />
+        </service>
+
+        <service id="n1c0_quote.form_factory.authorsrc.default" class="N1c0\QuoteBundle\FormFactory\AuthorSrcFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_quote.form.authorsrc.type%</argument>
+            <argument>%n1c0_quote.form.authorsrc.name%</argument>
+        </service>
+
+        <service id="n1c0_quote.form_type.housepublishing.default" class="N1c0\QuoteBundle\Form\HousePublishingType">
+            <argument>%n1c0_quote.model.housepublishing.class%</argument>
+            <tag name="form.type" alias="n1c0_quote_housepublishing" />
+        </service>
+
+        <service id="n1c0_quote.form_factory.housepublishing.default" class="N1c0\QuoteBundle\FormFactory\HousePublishingFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_quote.form.housepublishing.type%</argument>
+            <argument>%n1c0_quote.form.housepublishing.name%</argument>
+        </service>
+
+        <service id="n1c0_quote.form_type.tags.default" class="N1c0\QuoteBundle\Form\TagsType">
+            <argument>%n1c0_quote.model.tags.class%</argument>
+            <tag name="form.type" alias="n1c0_quote_tags" />
+        </service>
+
+        <service id="n1c0_quote.form_factory.tags.default" class="N1c0\QuoteBundle\FormFactory\TagsFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_quote.form.tags.type%</argument>
+            <argument>%n1c0_quote.form.tags.name%</argument>
         </service>
 
         <service id="n1c0_quote.listener.quote_blamer" class="%n1c0_quote.listener.quote_blamer.class%">
@@ -56,6 +115,24 @@
             <argument type="service" id="security.acl.provider" />
             <argument>%n1c0_quote.model.quote.class%</argument>
         </service>
+        <service id="n1c0_quote.acl.authorsrc.security" class="N1c0\QuoteBundle\Acl\SecurityAuthorSrcAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_quote.model.authorsrc.class%</argument>
+        </service>
+        <service id="n1c0_quote.acl.housepublishing.security" class="N1c0\QuoteBundle\Acl\SecurityHousePublishingAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_quote.model.housepublishing.class%</argument>
+        </service>
+        <service id="n1c0_quote.acl.tags.security" class="N1c0\QuoteBundle\Acl\SecurityTagsAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_quote.model.tags.class%</argument>
+        </service>
 
         <service id="n1c0_quote.acl.quote.roles" class="N1c0\QuoteBundle\Acl\RoleQuoteAcl">
             <argument type="service" id="security.context" />
@@ -65,15 +142,46 @@
             <argument /> <!-- Delete role -->
             <argument>%n1c0_quote.model.quote.class%</argument>
         </service>
+        <service id="n1c0_quote.acl.authorsrc.roles" class="N1c0\QuoteBundle\Acl\RoleAuthorSrcAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_quote.model.authorsrc.class%</argument>
+        </service>
+        <service id="n1c0_quote.acl.housepublishing.roles" class="N1c0\QuoteBundle\Acl\RoleHousePublishingAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_quote.model.housepublishing.class%</argument>
+        </service>
+        <service id="n1c0_quote.acl.tags.roles" class="N1c0\QuoteBundle\Acl\RoleTagsAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_quote.model.tags.class%</argument>
+        </service>
 
         <service id="n1c0_quote.manager.quote.acl" class="%n1c0_quote.manager.quote.acl.class%" public="false">
             <argument type="service" id="n1c0_quote.manager.quote.default" />
             <argument type="service" id="n1c0_quote.acl.quote" />
         </service>
-
-        <service id="n1c0_quote.listener.quote_markup" class="N1c0\QuoteBundle\EventListener\QuoteMarkupListener"><!-- If markup load -->
-            <tag name="kernel.event_subscriber" />
-            <argument type="service" id="n1c0_quote.markup" />
+        <service id="n1c0_quote.manager.authorsrc.acl" class="%n1c0_quote.manager.authorsrc.acl.class%" public="false">
+            <argument type="service" id="n1c0_quote.manager.authorsrc.default" />
+            <argument type="service" id="n1c0_quote.acl.authorsrc" />
+        </service>
+        <service id="n1c0_quote.manager.housepublishing.acl" class="%n1c0_quote.manager.housepublishing.acl.class%" public="false">
+            <argument type="service" id="n1c0_quote.manager.housepublishing.default" />
+            <argument type="service" id="n1c0_quote.acl.housepublishing" />
+        </service>
+        <service id="n1c0_quote.manager.tags.acl" class="%n1c0_quote.manager.tags.acl.class%" public="false">
+            <argument type="service" id="n1c0_quote.manager.tags.default" />
+            <argument type="service" id="n1c0_quote.acl.tags" />
         </service>
 
         <service id="n1c0_quote.quote.download" class="%n1c0_quote.download.quote.class%">

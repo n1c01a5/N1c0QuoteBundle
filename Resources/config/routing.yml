@@ -3,3 +3,21 @@ n1c0_quote_quote:
     prefix: /v1
     resource: N1c0\QuoteBundle\Controller\QuoteController
     name_prefix:  api_1_ # naming collision
+
+n1c0_quote_authorsrc:
+    type: rest
+    parent: n1c0_quote_quote
+    resource: N1c0\QuoteBundle\Controller\AuthorSrcController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_quote_housepublishing:
+    type: rest
+    parent: n1c0_quote_quote
+    resource: N1c0\QuoteBundle\Controller\HousePublishingController
+    name_prefix:  api_1_ # naming collision
+
+n1c0_quote_tags:
+    type: rest
+    parent: n1c0_quote_quote
+    resource: N1c0\QuoteBundle\Controller\TagsController
+    name_prefix:  api_1_ # naming collision
