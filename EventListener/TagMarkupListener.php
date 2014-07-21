@@ -3,18 +3,18 @@
 namespace N1c0\DissertationBundle\EventListener;
 
 use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\TagsEvent;
+use N1c0\DissertationBundle\Event\TagEvent;
 use N1c0\DissertationBundle\Markup\ParserInterface;
-use N1c0\DissertationBundle\Model\RawTagsInterface;
+use N1c0\DissertationBundle\Model\RawTagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Parses a tags for markup and sets the result
+ * Parses a tag for markup and sets the result
  * into the rawBody property.
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-class TagsMarkupListener implements EventSubscriberInterface
+class TagMarkupListener implements EventSubscriberInterface
 {
     /**
      * @var ParserInterface
@@ -32,25 +32,25 @@ class TagsMarkupListener implements EventSubscriberInterface
     }
 
     /**
-     * Parses raw tags data and assigns it to the rawBody
+     * Parses raw tag data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\DissertationBundle\Event\TagsEvent $event
+     * @param \N1c0\DissertationBundle\Event\TagEvent $event
      */
-    public function markup(TagsEvent $event)
+    public function markup(TagEvent $event)
     {
-        $tags = $event->getTags();
+        $tag = $event->getTag();
 
-        if (!$tags instanceof RawTagsInterface) {
+        if (!$tag instanceof RawTagInterface) {
             return;
         }
 
-        $result = $this->parser->parse($tags->getBody());
-        $tags->setRawBody($result);
+        $result = $this->parser->parse($tag->getBody());
+        $tag->setRawBody($result);
     }
 
     public static function getSubscribedEvents()
     {
-        return array(Events::TAGS_PRE_PERSIST => 'markup');
+        return array(Events::TAG_PRE_PERSIST => 'markup');
     }
 }

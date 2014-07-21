@@ -1,11 +1,11 @@
 <?php
 
-namespace N1c0\DissertationBundle\Entity;
+namespace N1c0\QuoteBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use N1c0\DissertationBundle\Model\AuthorSrcManager as BaseAuthorSrcManager;
-use N1c0\DissertationBundle\Model\DissertationInterface;
-use N1c0\DissertationBundle\Model\AuthorSrcInterface;
+use N1c0\QuoteBundle\Model\AuthorSrcManager as BaseAuthorSrcManager;
+use N1c0\QuoteBundle\Model\QuoteInterface;
+use N1c0\QuoteBundle\Model\AuthorSrcInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -48,19 +48,18 @@ class AuthorSrcManager extends BaseAuthorSrcManager
     }
 
     /**
-     * Returns a flat array of authorSrcs of a specific dissertation.
+     * Returns a flat array of authorSrcs of a specific quote.
      *
-     * @param  DissertationInterface $dissertation
-     * @return array           of DissertationInterface
+     * @param  QuoteInterface $quote
+     * @return array           of QuoteInterface
      */
-    public function findAuthorSrcsByDissertation(DissertationInterface $dissertation)
+    public function findAuthorSrcsByQuote(QuoteInterface $quote)
     {
         $qb = $this->repository
                 ->createQueryBuilder('i')
-                ->join('i.dissertation', 'd')
-                ->where('d.id = :dissertation')
-                ->add('orderBy', 'p.createdAt DESC')
-                ->setParameter('dissertation', $dissertation->getId());
+                ->join('i.quote', 'd')
+                ->where('d.id = :quote')
+                ->setParameter('quote', $quote->getId());
 
         $authorSrcs = $qb
             ->getQuery()
@@ -75,7 +74,7 @@ class AuthorSrcManager extends BaseAuthorSrcManager
      * @param  array           $criteria
      * @return AuthorSrcInterface
      */
-    public function findDissertationById($id)
+    public function findQuoteById($id)
     {
         return $this->repository->find($id);
     }
@@ -93,17 +92,17 @@ class AuthorSrcManager extends BaseAuthorSrcManager
     /**
      * Performs persisting of the authorSrc. 
      *
-     * @param DissertationInterface $dissertation
+     * @param QuoteInterface $quote
      */
     protected function doSaveAuthorSrc(AuthorSrcInterface $authorSrc)
     {
-        $this->em->persist($authorSrc->getDissertation());
+        $this->em->persist($authorSrc->getQuote());
         $this->em->persist($authorSrc);
         $this->em->flush();
     }
 
     /**
-     * Returns the fully qualified authorSrc dissertation class name
+     * Returns the fully qualified authorSrc quote class name
      *
      * @return string
      **/

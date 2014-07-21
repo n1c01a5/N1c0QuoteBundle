@@ -2,8 +2,8 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\DissertationBundle\Model\TagsInterface;
-use N1c0\DissertationBundle\Model\SignedTagsInterface;
+use N1c0\DissertationBundle\Model\TagInterface;
+use N1c0\DissertationBundle\Model\SignedTagInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Implements ACL checking using the Symfony2 Security component
  */
-class SecurityTagsAcl implements TagsAclInterface
+class SecurityTagAcl implements TagAclInterface
 {
     /**
      * Used to retrieve ObjectIdentity instances for objects.
@@ -41,14 +41,14 @@ class SecurityTagsAcl implements TagsAclInterface
     protected $securityContext;
 
     /**
-     * The FQCN of the Tags object.
+     * The FQCN of the Tag object.
      *
      * @var string
      */
-    protected $tagsClass;
+    protected $tagClass;
 
     /**
-     * The Class OID for the Tags object.
+     * The Class OID for the Tag object.
      *
      * @var ObjectIdentity
      */
@@ -60,23 +60,23 @@ class SecurityTagsAcl implements TagsAclInterface
      * @param SecurityContextInterface                 $securityContext
      * @param ObjectIdentityRetrievalStrategyInterface $objectRetrieval
      * @param MutableAclProviderInterface              $aclProvider
-     * @param string                                   $tagsClass
+     * @param string                                   $tagClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 ObjectIdentityRetrievalStrategyInterface $objectRetrieval,
                                 MutableAclProviderInterface $aclProvider,
-                                $tagsClass
+                                $tagClass
     )
     {
         $this->objectRetrieval   = $objectRetrieval;
         $this->aclProvider       = $aclProvider;
         $this->securityContext   = $securityContext;
-        $this->tagsClass = $tagsClass;
-        $this->oid               = new ObjectIdentity('class', $this->tagsClass);
+        $this->tagClass = $tagClass;
+        $this->oid               = new ObjectIdentity('class', $this->tagClass);
     }
 
     /**
-     * Checks if the Security token is allowed to create a new Tags.
+     * Checks if the Security token is allowed to create a new Tag.
      *
      * @return boolean
      */
@@ -86,52 +86,52 @@ class SecurityTagsAcl implements TagsAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Tags.
+     * Checks if the Security token is allowed to view the specified Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return boolean
      */
-    public function canView(TagsInterface $tags)
+    public function canView(TagInterface $tag)
     {
-        return $this->securityContext->isGranted('VIEW', $tags);
+        return $this->securityContext->isGranted('VIEW', $tag);
     }
 
     /**
-     * Checks if the Security token is allowed to edit the specified Tags.
+     * Checks if the Security token is allowed to edit the specified Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return boolean
      */
-    public function canEdit(TagsInterface $tags)
+    public function canEdit(TagInterface $tag)
     {
-        return $this->securityContext->isGranted('EDIT', $tags);
+        return $this->securityContext->isGranted('EDIT', $tag);
     }
 
     /**
-     * Checks if the Security token is allowed to delete the specified Tags.
+     * Checks if the Security token is allowed to delete the specified Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return boolean
      */
-    public function canDelete(TagsInterface $tags)
+    public function canDelete(TagInterface $tag)
     {
-        return $this->securityContext->isGranted('DELETE', $tags);
+        return $this->securityContext->isGranted('DELETE', $tag);
     }
 
     /**
-     * Sets the default object Acl entry for the supplied Tags.
+     * Sets the default object Acl entry for the supplied Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return void
      */
-    public function setDefaultAcl(TagsInterface $tags)
+    public function setDefaultAcl(TagInterface $tag)
     {
-        $objectIdentity = $this->objectRetrieval->getObjectIdentity($tags);
+        $objectIdentity = $this->objectRetrieval->getObjectIdentity($tag);
         $acl = $this->aclProvider->createAcl($objectIdentity);
 
-        if ($tags instanceof SignedTagsInterface &&
-            null !== $tags->getAuthor()) {
-            $securityIdentity = UserSecurityIdentity::fromAccount($tags->getAuthor());
+        if ($tag instanceof SignedTagInterface &&
+            null !== $tag->getAuthor()) {
+            $securityIdentity = UserSecurityIdentity::fromAccount($tag->getAuthor());
             $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
         }
 
@@ -139,15 +139,15 @@ class SecurityTagsAcl implements TagsAclInterface
     }
 
     /**
-     * Installs default Acl entries for the Tags class.
+     * Installs default Acl entries for the Tag class.
      *
-     * This needs to be re-run whenever the Tags class changes or is subclassed.
+     * This needs to be re-run whenever the Tag class changes or is subclassed.
      *
      * @return void
      */
     public function installFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->tagsClass);
+        $oid = new ObjectIdentity('class', $this->tagClass);
 
         try {
             $acl = $this->aclProvider->createAcl($oid);
@@ -164,7 +164,7 @@ class SecurityTagsAcl implements TagsAclInterface
      *
      * Override this method in a subclass to change what permissions are defined.
      * Once this method has been overridden you need to run the
-     * `fos:tags:installAces --flush` command
+     * `fos:tag:installAces --flush` command
      *
      * @param  AclInterface $acl
      * @param  MaskBuilder  $builder
@@ -186,16 +186,16 @@ class SecurityTagsAcl implements TagsAclInterface
     }
 
     /**
-     * Removes fallback Acl entries for the Tags class.
+     * Removes fallback Acl entries for the Tag class.
      *
-     * This should be run when uninstalling the TagsBundle, or when
+     * This should be run when uninstalling the TagBundle, or when
      * the Class Acl entry end up corrupted.
      *
      * @return void
      */
     public function uninstallFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->tagsClass);
+        $oid = new ObjectIdentity('class', $this->tagClass);
         $this->aclProvider->deleteAcl($oid);
     }
 }

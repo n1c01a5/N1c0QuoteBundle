@@ -1,10 +1,10 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
-use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\HousePublishingEvent;
-use N1c0\DissertationBundle\Event\HousePublishingPersistEvent;
+use N1c0\QuoteBundle\Events;
+use N1c0\QuoteBundle\Event\HousePublishingEvent;
+use N1c0\QuoteBundle\Event\HousePublishingPersistEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use InvalidHousePublishingException;
 
@@ -39,7 +39,7 @@ abstract class HousePublishingManager implements HousePublishingManagerInterface
      */
     public function all($limit = 5, $offset = 0)
     {
-        return $this->repository->findBy(array(), array('createdAt' => 'DESC'), $limit, $offset);
+        return $this->repository->findBy(array(), array(), $limit, $offset);
     }
 
     /**
@@ -56,12 +56,12 @@ abstract class HousePublishingManager implements HousePublishingManagerInterface
      *
      * @return HousePublishing
      */
-    public function createHousePublishing(DissertationInterface $dissertation)
+    public function createHousePublishing(QuoteInterface $quote)
     {
         $class = $this->getClass();
         $housePublishing = new $class;
 
-        $housePublishing->setDissertation($dissertation);
+        $housePublishing->setQuote($quote);
 
         $event = new HousePublishingEvent($housePublishing);
         $this->dispatcher->dispatch(Events::HOUSEPUBLISHING_CREATE, $event);
@@ -75,12 +75,12 @@ abstract class HousePublishingManager implements HousePublishingManagerInterface
      * perform the saving of the housePublishing to the backend.
      *
      * @param  HousePublishingInterface         $housePublishing
-     * @throws InvalidHousePublishingException when the housePublishing does not have a dissertation.
+     * @throws InvalidHousePublishingException when the housePublishing does not have a quote.
      */
     public function saveHousePublishing(HousePublishingInterface $housePublishing)
     {
-        if (null === $housePublishing->getDissertation()) {
-            throw new InvalidHousePublishingException('The housePublishing must have a dissertation');
+        if (null === $housePublishing->getQuote()) {
+            throw new InvalidHousePublishingException('The housePublishing must have a quote');
         }
 
         $event = new HousePublishingPersistEvent($housePublishing);

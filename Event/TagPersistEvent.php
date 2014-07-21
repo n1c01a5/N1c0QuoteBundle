@@ -6,7 +6,7 @@ namespace N1c0\DissertationBundle\Event;
  * An event related to a persisting event that can be
  * cancelled by a listener.
  */
-class TagsPersistEvent extends TagsEvent
+class TagPersistEvent extends TagEvent
 {
     /**
      * @var bool

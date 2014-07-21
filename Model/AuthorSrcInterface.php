@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
 Interface AuthorSrcInterface
 {
@@ -10,47 +10,41 @@ Interface AuthorSrcInterface
     public function getId();
     
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      * @return AuthorSrcInterface
      */
-    public function setTitle($title);
+    public function setName($name);
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle();
+    public function getName();
 
     /**
-     * Set body
+     * Set firstname
      *
-     * @param string $body
+     * @param string $firstname
      * @return AuthorSrcInterface
      */
-    public function setBody($body);
+    public function setFirstName($firstname);
 
     /**
-     * Get body
+     * Get firstname
      *
-     * @return string 
+     * @return string
      */
-    public function getBody();
+    public function getFirstName();
+    /**
+     * @return QuoteInterface
+     */
+    public function getQuote();
 
     /**
-     * @return DissertationInterface
+     * @param QuoteInterface $quote
      */
-    public function getDissertation();
-
-    /**
-     * @param DissertationInterface $dissertation
-     */
-    public function setDissertation(DissertationInterface $dissertation);
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt();
+    public function setQuote(QuoteInterface $quote);
 }

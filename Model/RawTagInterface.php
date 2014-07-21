@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the N1c0TagsBundle package.
+ * This file is part of the N1c0TagBundle package.
  *
  * (c) 
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
 /**
  * A comment that holds a raw version of the comment allowing
@@ -17,7 +17,7 @@ namespace N1c0\DissertationBundle\Model;
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-interface RawTagsInterface extends TagsInterface
+interface RawTagInterface extends TagInterface
 {
     /**
      * Gets the raw processed html.

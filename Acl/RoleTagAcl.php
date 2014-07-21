@@ -2,13 +2,13 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\TagsBundle\Model\TagsInterface;
+use N1c0\TagBundle\Model\TagInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Implements Role checking using the Symfony2 Security component
  */
-class RoleTagsAcl implements TagsAclInterface
+class RoleTagAcl implements TagAclInterface
 {
     /**
      * The current Security Context.
@@ -18,35 +18,35 @@ class RoleTagsAcl implements TagsAclInterface
     private $securityContext;
 
     /**
-     * The FQCN of the Tags object.
+     * The FQCN of the Tag object.
      *
      * @var string
      */
-    private $tagsClass;
+    private $tagClass;
 
     /**
-     * The role that will grant create permission for a tags.
+     * The role that will grant create permission for a tag.
      *
      * @var string
      */
     private $createRole;
 
     /**
-     * The role that will grant view permission for a tags.
+     * The role that will grant view permission for a tag.
      *
      * @var string
      */
     private $viewRole;
 
     /**
-     * The role that will grant edit permission for a tags.
+     * The role that will grant edit permission for a tag.
      *
      * @var string
      */
     private $editRole;
 
     /**
-     * The role that will grant delete permission for a tags.
+     * The role that will grant delete permission for a tag.
      *
      * @var string
      */
@@ -60,14 +60,14 @@ class RoleTagsAcl implements TagsAclInterface
      * @param string                   $viewRole
      * @param string                   $editRole
      * @param string                   $deleteRole
-     * @param string                   $tagsClass
+     * @param string                   $tagClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 $createRole,
                                 $viewRole,
                                 $editRole,
                                 $deleteRole,
-                                $tagsClass
+                                $tagClass
     )
     {
         $this->securityContext   = $securityContext;
@@ -75,11 +75,11 @@ class RoleTagsAcl implements TagsAclInterface
         $this->viewRole          = $viewRole;
         $this->editRole          = $editRole;
         $this->deleteRole        = $deleteRole;
-        $this->tagsClass      = $tagsClass;
+        $this->tagClass      = $tagClass;
     }
 
     /**
-     * Checks if the Security token has an appropriate role to create a new Tags.
+     * Checks if the Security token has an appropriate role to create a new Tag.
      *
      * @return boolean
      */
@@ -89,23 +89,23 @@ class RoleTagsAcl implements TagsAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Tags.
+     * Checks if the Security token is allowed to view the specified Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return boolean
      */
-    public function canView(TagsInterface $tags)
+    public function canView(TagInterface $tag)
     {
         return $this->securityContext->isGranted($this->viewRole);
     }
 
     /**
-     * Checks if the Security token is allowed to reply to a parent tags.
+     * Checks if the Security token is allowed to reply to a parent tag.
      *
-     * @param  TagsInterface|null $parent
+     * @param  TagInterface|null $parent
      * @return boolean
      */
-    public function canReply(TagsInterface $parent = null)
+    public function canReply(TagInterface $parent = null)
     {
         if (null !== $parent) {
             return $this->canCreate() && $this->canView($parent);
@@ -115,23 +115,23 @@ class RoleTagsAcl implements TagsAclInterface
     }
 
     /**
-     * Checks if the Security token has an appropriate role to edit the supplied Tags.
+     * Checks if the Security token has an appropriate role to edit the supplied Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return boolean
      */
-    public function canEdit(TagsInterface $tags)
+    public function canEdit(TagInterface $tag)
     {
         return $this->securityContext->isGranted($this->editRole);
     }
 
     /**
-     * Checks if the Security token is allowed to delete a specific Tags.
+     * Checks if the Security token is allowed to delete a specific Tag.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return boolean
      */
-    public function canDelete(TagsInterface $tags)
+    public function canDelete(TagInterface $tag)
     {
         return $this->securityContext->isGranted($this->deleteRole);
     }
@@ -139,10 +139,10 @@ class RoleTagsAcl implements TagsAclInterface
     /**
      * Role based Acl does not require setup.
      *
-     * @param  TagsInterface $tags
+     * @param  TagInterface $tag
      * @return void
      */
-    public function setDefaultAcl(TagsInterface $tags)
+    public function setDefaultAcl(TagInterface $tag)
     {
 
     }

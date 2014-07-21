@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
 /**
  * Interface to be implemented by authorSrc managers. This adds an additional level
@@ -27,19 +27,19 @@ interface AuthorSrcManagerInterface
     public function findAuthorSrcById($id);
 
     /**
-     * Returns a flat array of authorSrcs with the specified dissertation.
+     * Returns a flat array of authorSrcs with the specified quote.
      *
-     * @param  DissertationInterface $dissertation
+     * @param  QuoteInterface $quote
      * @return array           of AuthorSrcInterface
      */
-    public function findAuthorSrcsByDissertation(DissertationInterface $dissertation);
+    public function findAuthorSrcsByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty authorSrc instance
      *
      * @return AuthorSrc
      */
-    public function createAuthorSrc(DissertationInterface $dissertation);
+    public function createAuthorSrc(QuoteInterface $quote);
 
     /**
      * Saves a authorSrc

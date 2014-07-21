@@ -123,40 +123,40 @@ final class Events
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the Tags.
+     * persisting the Tag.
      *
      * This event allows you to modify the data in the AuthorSrc prior
      * to persisting occuring. The listener receives a
-     * N1c0\QuoteBundle\Event\TagsPersistEvent instance.
+     * N1c0\QuoteBundle\Event\TagPersistEvent instance.
      *
      * Persisting of the quote can be aborted by calling
      * $event->abortPersist()
      *
      * @var string
      */
-    const TAGS_PRE_PERSIST = 'n1c0_quote.tags.pre_persist';
+    const TAG_PRE_PERSIST = 'n1c0_quote.tag.pre_persist';
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the Tags.
+     * persisted the Tag.
      *
      * This event allows you to notify users or perform other actions
-     * that might require the Tags to be persisted before performing
+     * that might require the Tag to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\QuoteBundle\Event\TagsEvent instance.
+     * N1c0\QuoteBundle\Event\TagEvent instance.
      *
      * @var string
      */
-    const TAGS_POST_PERSIST = 'n1c0_quote.tags.post_persist';
+    const TAG_POST_PERSIST = 'n1c0_quote.tag.post_persist';
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a Tags.
+     * a new instance of a Tag.
      *
-     * The listener receives a N1c0\QuoteBundle\Event\TagsEvent
+     * The listener receives a N1c0\QuoteBundle\Event\TagEvent
      * instance.
      *
      * @var string
      */
-    const TAGS_CREATE = 'n1c0_quote.tags.create';
+    const TAG_CREATE = 'n1c0_quote.tag.create';
 }

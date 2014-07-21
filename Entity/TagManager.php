@@ -1,18 +1,18 @@
 <?php
 
-namespace N1c0\DissertationBundle\Entity;
+namespace N1c0\QuoteBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use N1c0\DissertationBundle\Model\TagsManager as BaseTagsManager;
-use N1c0\DissertationBundle\Model\DissertationInterface;
-use N1c0\DissertationBundle\Model\TagsInterface;
+use N1c0\QuoteBundle\Model\TagManager as BaseTagManager;
+use N1c0\QuoteBundle\Model\QuoteInterface;
+use N1c0\QuoteBundle\Model\TagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Default ORM TagsManager.
+ * Default ORM TagManager.
  *
  */
-class TagsManager extends BaseTagsManager
+class TagManager extends BaseTagManager
 {
     /**
      * @var EntityManager
@@ -48,62 +48,61 @@ class TagsManager extends BaseTagsManager
     }
 
     /**
-     * Returns a flat array of tagss of a specific dissertation.
+     * Returns a flat array of tags of a specific quote.
      *
-     * @param  DissertationInterface $dissertation
-     * @return array           of DissertationInterface
+     * @param  QuoteInterface $quote
+     * @return array           of QuoteInterface
      */
-    public function findTagssByDissertation(DissertationInterface $dissertation)
+    public function findTagsByQuote(QuoteInterface $quote)
     {
         $qb = $this->repository
                 ->createQueryBuilder('i')
-                ->join('i.dissertation', 'd')
-                ->where('d.id = :dissertation')
-                ->add('orderBy', 'p.createdAt DESC')
-                ->setParameter('dissertation', $dissertation->getId());
+                ->join('i.quote', 'd')
+                ->where('d.id = :quote')
+                ->setParameter('quote', $quote->getId());
 
-        $tagss = $qb
+        $tags = $qb
             ->getQuery()
             ->execute();
 
-        return $tagss;
+        return $tags;
     }
 
     /**
-     * Find one tags by its ID
+     * Find one tag by its ID
      *
      * @param  array           $criteria
-     * @return TagsInterface
+     * @return TagInterface
      */
-    public function findDissertationById($id)
+    public function findQuoteById($id)
     {
         return $this->repository->find($id);
     }
 
     /**
-     * Finds all Tagss.
+     * Finds all Tags.
      *
-     * @return array of TagsInterface
+     * @return array of TagInterface
      */
-    public function findAllTagss()
+    public function findAllTags()
     {
         return $this->repository->findAll();
     }
 
     /**
-     * Performs persisting of the tags. 
+     * Performs persisting of the tag. 
      *
-     * @param DissertationInterface $dissertation
+     * @param QuoteInterface $quote
      */
-    protected function doSaveTags(TagsInterface $tags)
+    protected function doSaveTag(TagInterface $tag)
     {
-        $this->em->persist($tags->getDissertation());
-        $this->em->persist($tags);
+        $this->em->persist($tag->getQuote());
+        $this->em->persist($tag);
         $this->em->flush();
     }
 
     /**
-     * Returns the fully qualified tags dissertation class name
+     * Returns the fully qualified tag quote class name
      *
      * @return string
      **/

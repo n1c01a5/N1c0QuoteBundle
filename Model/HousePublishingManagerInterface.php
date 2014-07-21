@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
 /**
  * Interface to be implemented by housePublishing managers. This adds an additional level
@@ -27,19 +27,19 @@ interface HousePublishingManagerInterface
     public function findHousePublishingById($id);
 
     /**
-     * Returns a flat array of housePublishings with the specified dissertation.
+     * Returns a flat array of housePublishings with the specified quote.
      *
-     * @param  DissertationInterface $dissertation
+     * @param  QuoteInterface $quote
      * @return array           of HousePublishingInterface
      */
-    public function findHousePublishingsByDissertation(DissertationInterface $dissertation);
+    public function findHousePublishingsByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty housePublishing instance
      *
      * @return HousePublishing
      */
-    public function createHousePublishing(DissertationInterface $dissertation);
+    public function createHousePublishing(QuoteInterface $quote);
 
     /**
      * Saves a housePublishing

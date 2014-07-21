@@ -26,11 +26,6 @@ Interface QuoteInterface
      * @return array with the last author of the quote
      */
     public function getAuthorName();
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt();
     
     /**
      * Set title

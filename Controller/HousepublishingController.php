@@ -18,46 +18,46 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use N1c0\QuoteBundle\Exception\InvalidFormException;
 use N1c0\QuoteBundle\Form\QuoteType;
 use N1c0\QuoteBundle\Model\QuoteInterface;
-use N1c0\QuoteBundle\Form\TagsType;
-use N1c0\QuoteBundle\Model\TagsInterface;
+use N1c0\QuoteBundle\Form\HousePublishingType;
+use N1c0\QuoteBundle\Model\HousePublishingInterface;
 
-class TagsController extends FOSRestController
+class HousepublishingController extends FOSRestController
 {
     /**
-     * Get single Tags.
+     * Get single HousePublishing.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a Tags for a given id",
-     *   output = "N1c0\QuoteBundle\Entity\Tags",
+     *   description = "Gets a HousePublishing for a given id",
+     *   output = "N1c0\QuoteBundle\Entity\HousePublishing",
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the tags or the quote is not found"
+     *     404 = "Returned when the housePublishing or the quote is not found"
      *   }
      * )
      *
      *
-     * @Annotations\View(templateVar="tags")
+     * @Annotations\View(templateVar="housePublishing")
      *
      * @param int                   $id                   the quote id
-     * @param int                   $tagsId           the tags id
+     * @param int                   $housePublishingId           the housePublishing id
      *
      * @return array
      *
-     * @throws NotFoundHttpException when tags not exist
+     * @throws NotFoundHttpException when housePublishing not exist
      */
-    public function getTagsAction($id, $tagsId)
+    public function getHousePublishingAction($id, $housePublishingId)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
         
-        return $this->getOr404($tagsId);
+        return $this->getOr404($housePublishingId);
     }
 
     /**
-     * Get the tagss of a quote.
+     * Get the housePublishings of a quote.
      *
      * @ApiDoc(
      *   resource = true,
@@ -66,29 +66,29 @@ class TagsController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing tagss.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many tagss to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing housePublishings.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many housePublishings to return.")
      *
      * @Annotations\View(
-     *  templateVar="tagss"
+     *  templateVar="housePublishings"
      * )
      *
      * @param int                   $id           the quote id
      *
      * @return array
      */
-    public function getTagssAction($id)
+    public function getHousePublishingsAction($id)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_quote.manager.tags')->findTagssByQuote($quote);
+        return $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingsByQuote($quote);
     }
 
     /**
-     * Presents the form to use to create a new tags.
+     * Presents the form to use to create a new housePublishing.
      *
      * @ApiDoc(
      *   resource = true,
@@ -105,17 +105,17 @@ class TagsController extends FOSRestController
      *
      * @return FormTypeInterface
      */
-    public function newTagsAction($id)
+    public function newHousePublishingAction($id)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        $tags = $this->container->get('n1c0_quote.manager.tags')->createTags($quote);
+        $housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->createHousePublishing($quote);
 
-        $form = $this->container->get('n1c0_quote.form_factory.tags')->createForm();
-        $form->setData($tags);
+        $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
+        $form->setData($housePublishing);
 
         return array(
             'form' => $form, 
@@ -124,7 +124,7 @@ class TagsController extends FOSRestController
     }
 
     /**
-     * Edits an tags.
+     * Edits an housePublishing.
      *
      * @ApiDoc(
      *   resource = true,
@@ -134,41 +134,41 @@ class TagsController extends FOSRestController
      * )
      * 
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:Tags:editTags.html.twig",
+     *  template = "N1c0QuoteBundle:HousePublishing:editHousePublishing.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param int     $id                       the quote id
-     * @param int     $tagsId           the tags id
+     * @param int     $housePublishingId           the housePublishing id
      *
      * @return FormTypeInterface
      */
-    public function editTagsAction($id, $tagsId)
+    public function editHousePublishingAction($id, $housePublishingId)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        $tags = $this->getOr404($tagsId);
+        $housePublishing = $this->getOr404($housePublishingId);
 
-        $form = $this->container->get('n1c0_quote.form_factory.tags')->createForm();
-        $form->setData($tags);
+        $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
+        $form->setData($housePublishing);
     
         return array(
             'form'           => $form,
             'id'             => $id,
-            'tagsId' => $tags->getId()
+            'housePublishingId' => $housePublishing->getId()
         );
     }
 
 
     /**
-     * Creates a new Tags for the Quote from the submitted data.
+     * Creates a new HousePublishing for the Quote from the submitted data.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Creates a new tags for the quote from the submitted data.",
-     *   input = "N1c0\QuoteBundle\Form\TagsType",
+     *   description = "Creates a new housePublishing for the quote from the submitted data.",
+     *   input = "N1c0\QuoteBundle\Form\HousePublishingType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -177,7 +177,7 @@ class TagsController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:Tags:newTags.html.twig",
+     *  template = "N1c0QuoteBundle:HousePublishing:newHousePublishing.html.twig",
      *  statusCode = Codes::HTTP_BAD_REQUEST,
      *  templateVar = "form"
      * )
@@ -187,7 +187,7 @@ class TagsController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postTagsAction(Request $request, $id)
+    public function postHousePublishingAction(Request $request, $id)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -195,21 +195,21 @@ class TagsController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $tagsManager = $this->container->get('n1c0_quote.manager.tags');
-            $tags = $tagsManager->createTags($quote);
+            $housePublishingManager = $this->container->get('n1c0_quote.manager.housePublishing');
+            $housePublishing = $housePublishingManager->createHousePublishing($quote);
 
-            $form = $this->container->get('n1c0_quote.form_factory.tags')->createForm();
-            $form->setData($tags);
+            $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
+            $form->setData($housePublishing);
 
             if ('POST' === $request->getMethod()) {
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $tagsManager->saveTags($tags);
+                    $housePublishingManager->saveHousePublishing($housePublishing);
                 
                     $routeOptions = array(
                         'id' => $id,
-                        'tagsId' => $form->getData()->getId(),
+                        'housePublishingId' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -219,8 +219,8 @@ class TagsController extends FOSRestController
                     $isAjax = $request->isXmlHttpRequest();
 
                     if($isAjax == false) { 
-                        // Add a method onCreateTagsSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_quote_tags', $routeOptions, Codes::HTTP_CREATED);
+                        // Add a method onCreateHousePublishingSuccess(FormInterface $form)
+                        return $this->routeRedirectView('api_1_get_quote_housepublishing', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -233,32 +233,32 @@ class TagsController extends FOSRestController
     }
 
     /**
-     * Update existing tags from the submitted data or create a new tags at a specific location.
+     * Update existing housePublishing from the submitted data or create a new housePublishing at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\TagsType",
+     *   input = "N1c0\DemoBundle\Form\HousePublishingType",
      *   statusCodes = {
-     *     201 = "Returned when the Tags is created",
+     *     201 = "Returned when the HousePublishing is created",
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
      *   }
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:Tags:editQuoteTags.html.twig",
+     *  template = "N1c0QuoteBundle:HousePublishing:editQuoteHousePublishing.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the quote 
-     * @param int     $tagsId      the tags id
+     * @param int     $housePublishingId      the housePublishing id
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when tags not exist
+     * @throws NotFoundHttpException when housePublishing not exist
      */
-    public function putTagsAction(Request $request, $id, $tagsId)
+    public function putHousePublishingAction(Request $request, $id, $housePublishingId)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -266,15 +266,15 @@ class TagsController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $tags = $this->getOr404($tagsId);
+            $housePublishing = $this->getOr404($housePublishingId);
 
-            $form = $this->container->get('n1c0_quote.form_factory.tags')->createForm();
-            $form->setData($tags);
+            $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
+            $form->setData($housePublishing);
             $form->bind($request);
 
             if ($form->isValid()) {
-                $tagsManager = $this->container->get('n1c0_quote.manager.tags');
-                if ($tagsManager->saveTags($tags) !== false) {
+                $housePublishingManager = $this->container->get('n1c0_quote.manager.housePublishing');
+                if ($housePublishingManager->saveHousePublishing($housePublishing) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -289,11 +289,11 @@ class TagsController extends FOSRestController
     }
 
     /**
-     * Update existing tags for a quote from the submitted data or create a new tags at a specific location.
+     * Update existing housePublishing for a quote from the submitted data or create a new housePublishing at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\TagsType",
+     *   input = "N1c0\DemoBundle\Form\HousePublishingType",
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -301,19 +301,19 @@ class TagsController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:Tags:editQuoteTags.html.twig",
+     *  template = "N1c0QuoteBundle:HousePublishing:editQuoteHousePublishing.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the quote 
-     * @param int     $tagsId      the tags id
+     * @param int     $housePublishingId      the housePublishing id
 
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when tags not exist
+     * @throws NotFoundHttpException when housePublishing not exist
      */
-    public function patchTagsAction(Request $request, $id, $tagsId)
+    public function patchHousePublishingAction(Request $request, $id, $housePublishingId)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -321,15 +321,15 @@ class TagsController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $tags = $this->getOr404($tagsId);
+            $housePublishing = $this->getOr404($housePublishingId);
 
-            $form = $this->container->get('n1c0_quote.form_factory.tags')->createForm();
-            $form->setData($tags);
+            $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
+            $form->setData($housePublishing);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $tagsManager = $this->container->get('n1c0_quote.manager.tags');
-                if ($tagsManager->saveTags($tags) !== false) {
+                $housePublishingManager = $this->container->get('n1c0_quote.manager.housePublishing');
+                if ($housePublishingManager->saveHousePublishing($housePublishing) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -344,11 +344,11 @@ class TagsController extends FOSRestController
     }
 
     /**
-     * Get thread for an tags.
+     * Get thread for an housePublishing.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a tags thread",
+     *   description = "Gets a housePublishing thread",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
@@ -357,59 +357,59 @@ class TagsController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the quote id
-     * @param int     $tagsId       the tags id
+     * @param int     $housePublishingId       the housePublishing id
      *
      * @return array
      */
-    public function getTagsThreadAction($id, $tagsId)
+    public function getHousePublishingThreadAction($id, $housePublishingId)
     {
-        return $this->container->get('n1c0_quote.comment.quote_comment.default')->getThread($tagsId);
+        return $this->container->get('n1c0_quote.comment.quote_comment.default')->getThread($housePublishingId);
     }
 
     /**
-     * Fetch a Tags or throw an 404 Exception.
+     * Fetch a HousePublishing or throw an 404 Exception.
      *
      * @param mixed $id
      *
-     * @return TagsInterface
+     * @return HousePublishingInterface
      *
      * @throws NotFoundHttpException
      */
     protected function getOr404($id)
     {
-        if (!($tags = $this->container->get('n1c0_quote.manager.tags')->findTagsById($id))) {
+        if (!($housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        return $tags;
+        return $housePublishing;
     }
 
     /**
-     * Get download for the tags.
+     * Get download for the housePublishing.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a download tags",
+     *   description = "Gets a download housePublishing",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
-     * @Annotations\View(templateVar="tags")
+     * @Annotations\View(templateVar="housePublishing")
      *
      * @param int     $id                  the quote uuid
-     * @param int     $tagsId      the tags uuid
+     * @param int     $housePublishingId      the housePublishing uuid
      *
      * @return array
      * @throws NotFoundHttpException when quote not exist
      */
-    public function getTagsDownloadAction($id, $tagsId)
+    public function getHousePublishingDownloadAction($id, $housePublishingId)
     {
         if (!($quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        if (!($tags = $this->container->get('n1c0_quote.manager.tags')->findTagsById($tagsId))) {
+        if (!($housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingById($housePublishingId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
@@ -446,42 +446,42 @@ class TagsController extends FOSRestController
         return array(
             'formats'        => $formats, 
             'id'             => $id,
-            'tagsId' => $tagsId
+            'housePublishingId' => $housePublishingId
         );
     }
 
     /**
-     * Convert the tags in pdf format.
+     * Convert the housePublishing in pdf format.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Convert the tags",
+     *   description = "Convert the housePublishing",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
      * @param int     $id                  the quote uuid
-     * @param int     $tagsId      the tags uuid
+     * @param int     $housePublishingId      the housePublishing uuid
      * @param string  $format              the format to convert quote 
      *
      * @return Response
      * @throws NotFoundHttpException when quote not exist
      */
-    public function getTagsConvertAction($id, $tagsId, $format)
+    public function getHousePublishingConvertAction($id, $housePublishingId, $format)
     {
         if (!($quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id))) {
             throw new NotFoundHttpException(sprintf('The quote with the id \'%s\' was not found.',$id));
         }
 
-        if (!($tags = $this->container->get('n1c0_quote.manager.tags')->findTagsById($tagsId))) {
+        if (!($housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingById($housePublishingId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        $tagsConvert = $this->container->get('n1c0_quote.tags.download')->getConvert($tagsId, $format);
+        $housePublishingConvert = $this->container->get('n1c0_quote.housePublishing.download')->getConvert($housePublishingId, $format);
 
         $response = new Response();
-        $response->setContent($tagsConvert);
+        $response->setContent($housePublishingConvert);
         $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
@@ -530,7 +530,7 @@ class TagsController extends FOSRestController
                 $ext = $format;       
         }
    
-        $response->headers->set('Content-disposition', 'filename='.$tags->getTitle().'.'.$ext);
+        $response->headers->set('Content-disposition', 'filename='.$housePublishing->getTitle().'.'.$ext);
          
         return $response;
     }

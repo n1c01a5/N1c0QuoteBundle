@@ -1,10 +1,10 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
-use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\AuthorSrcEvent;
-use N1c0\DissertationBundle\Event\AuthorSrcPersistEvent;
+use N1c0\QuoteBundle\Events;
+use N1c0\QuoteBundle\Event\AuthorSrcEvent;
+use N1c0\QuoteBundle\Event\AuthorSrcPersistEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use InvalidAuthorSrcException;
 
@@ -39,7 +39,7 @@ abstract class AuthorSrcManager implements AuthorSrcManagerInterface
      */
     public function all($limit = 5, $offset = 0)
     {
-        return $this->repository->findBy(array(), array('createdAt' => 'DESC'), $limit, $offset);
+        return $this->repository->findBy(array(), array(), $limit, $offset);
     }
 
     /**
@@ -56,12 +56,12 @@ abstract class AuthorSrcManager implements AuthorSrcManagerInterface
      *
      * @return AuthorSrc
      */
-    public function createAuthorSrc(DissertationInterface $dissertation)
+    public function createAuthorSrc(QuoteInterface $quote)
     {
         $class = $this->getClass();
         $authorSrc = new $class;
 
-        $authorSrc->setDissertation($dissertation);
+        $authorSrc->setQuote($quote);
 
         $event = new AuthorSrcEvent($authorSrc);
         $this->dispatcher->dispatch(Events::AUTHORSRC_CREATE, $event);
@@ -75,12 +75,12 @@ abstract class AuthorSrcManager implements AuthorSrcManagerInterface
      * perform the saving of the authorSrc to the backend.
      *
      * @param  AuthorSrcInterface         $authorSrc
-     * @throws InvalidAuthorSrcException when the authorSrc does not have a dissertation.
+     * @throws InvalidAuthorSrcException when the authorSrc does not have a quote.
      */
     public function saveAuthorSrc(AuthorSrcInterface $authorSrc)
     {
-        if (null === $authorSrc->getDissertation()) {
-            throw new InvalidAuthorSrcException('The authorSrc must have a dissertation');
+        if (null === $authorSrc->getQuote()) {
+            throw new InvalidAuthorSrcException('The authorSrc must have a quote');
         }
 
         $event = new AuthorSrcPersistEvent($authorSrc);

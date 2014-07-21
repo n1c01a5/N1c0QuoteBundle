@@ -32,11 +32,6 @@ abstract class Quote implements QuoteInterface
     protected $body;
 
     /**
-     * @var DateTime
-     */
-    protected $createdAt;
-
-    /**
      * Current state of the quote.
      *
      * @var integer
@@ -111,23 +106,6 @@ abstract class Quote implements QuoteInterface
     public function getAuthorName()
     {
         return 'Anonymous';
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Sets the creation date
-     * @param DateTime $createdAt
-     */
-    public function setCreatedAt(DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
     }
 
     /**

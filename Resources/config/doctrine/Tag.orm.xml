@@ -5,7 +5,7 @@
                         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                         http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="N1c0\QuoteBundle\Entity\Quote">
+    <mapped-superclass name="N1c0\QuoteBundle\Entity\Tag">
 
         <field name="title" column="title" type="string" />
 

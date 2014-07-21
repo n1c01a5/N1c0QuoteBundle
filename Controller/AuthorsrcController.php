@@ -18,46 +18,46 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use N1c0\QuoteBundle\Exception\InvalidFormException;
 use N1c0\QuoteBundle\Form\QuoteType;
 use N1c0\QuoteBundle\Model\QuoteInterface;
-use N1c0\QuoteBundle\Form\HousePublishingType;
-use N1c0\QuoteBundle\Model\HousePublishingInterface;
+use N1c0\QuoteBundle\Form\AuthorSrcType;
+use N1c0\QuoteBundle\Model\AuthorSrcInterface;
 
-class HousePublishingController extends FOSRestController
+class AuthorsrcController extends FOSRestController
 {
     /**
-     * Get single HousePublishing.
+     * Get single AuthorSrc.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a HousePublishing for a given id",
-     *   output = "N1c0\QuoteBundle\Entity\HousePublishing",
+     *   description = "Gets a AuthorSrc for a given id",
+     *   output = "N1c0\QuoteBundle\Entity\AuthorSrc",
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the housePublishing or the quote is not found"
+     *     404 = "Returned when the authorSrc or the quote is not found"
      *   }
      * )
      *
      *
-     * @Annotations\View(templateVar="housePublishing")
+     * @Annotations\View(templateVar="authorSrc")
      *
      * @param int                   $id                   the quote id
-     * @param int                   $housePublishingId           the housePublishing id
+     * @param int                   $authorSrcId           the authorSrc id
      *
      * @return array
      *
-     * @throws NotFoundHttpException when housePublishing not exist
+     * @throws NotFoundHttpException when authorSrc not exist
      */
-    public function getHousePublishingAction($id, $housePublishingId)
+    public function getAuthorSrcAction($id, $authorSrcId)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
         
-        return $this->getOr404($housePublishingId);
+        return $this->getOr404($authorSrcId);
     }
 
     /**
-     * Get the housePublishings of a quote.
+     * Get the authorSrcs of a quote.
      *
      * @ApiDoc(
      *   resource = true,
@@ -66,29 +66,29 @@ class HousePublishingController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing housePublishings.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many housePublishings to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing authorSrcs.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many authorSrcs to return.")
      *
      * @Annotations\View(
-     *  templateVar="housePublishings"
+     *  templateVar="authorSrcs"
      * )
      *
      * @param int                   $id           the quote id
      *
      * @return array
      */
-    public function getHousePublishingsAction($id)
+    public function getAuthorSrcsAction($id)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingsByQuote($quote);
+        return $this->container->get('n1c0_quote.manager.authorsrc')->findAuthorSrcsByQuote($quote);
     }
 
     /**
-     * Presents the form to use to create a new housePublishing.
+     * Presents the form to use to create a new authorSrc.
      *
      * @ApiDoc(
      *   resource = true,
@@ -105,17 +105,17 @@ class HousePublishingController extends FOSRestController
      *
      * @return FormTypeInterface
      */
-    public function newHousePublishingAction($id)
+    public function newAuthorSrcAction($id)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        $housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->createHousePublishing($quote);
+        $authorSrc = $this->container->get('n1c0_quote.manager.authorsrc')->createAuthorSrc($quote);
 
-        $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
-        $form->setData($housePublishing);
+        $form = $this->container->get('n1c0_quote.form_factory.authorsrc')->createForm();
+        $form->setData($authorSrc);
 
         return array(
             'form' => $form, 
@@ -124,7 +124,7 @@ class HousePublishingController extends FOSRestController
     }
 
     /**
-     * Edits an housePublishing.
+     * Edits an authorSrc.
      *
      * @ApiDoc(
      *   resource = true,
@@ -134,41 +134,41 @@ class HousePublishingController extends FOSRestController
      * )
      * 
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:HousePublishing:editHousePublishing.html.twig",
+     *  template = "N1c0QuoteBundle:AuthorSrc:editAuthorSrc.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param int     $id                       the quote id
-     * @param int     $housePublishingId           the housePublishing id
+     * @param int     $authorSrcId           the authorSrc id
      *
      * @return FormTypeInterface
      */
-    public function editHousePublishingAction($id, $housePublishingId)
+    public function editAuthorSrcAction($id, $authorSrcId)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        $housePublishing = $this->getOr404($housePublishingId);
+        $authorSrc = $this->getOr404($authorSrcId);
 
-        $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
-        $form->setData($housePublishing);
+        $form = $this->container->get('n1c0_quote.form_factory.authorsrc')->createForm();
+        $form->setData($authorSrc);
     
         return array(
             'form'           => $form,
             'id'             => $id,
-            'housePublishingId' => $housePublishing->getId()
+            'authorSrcId' => $authorSrc->getId()
         );
     }
 
 
     /**
-     * Creates a new HousePublishing for the Quote from the submitted data.
+     * Creates a new AuthorSrc for the Quote from the submitted data.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Creates a new housePublishing for the quote from the submitted data.",
-     *   input = "N1c0\QuoteBundle\Form\HousePublishingType",
+     *   description = "Creates a new authorSrc for the quote from the submitted data.",
+     *   input = "N1c0\QuoteBundle\Form\AuthorSrcType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -177,7 +177,7 @@ class HousePublishingController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:HousePublishing:newHousePublishing.html.twig",
+     *  template = "N1c0QuoteBundle:AuthorSrc:newAuthorSrc.html.twig",
      *  statusCode = Codes::HTTP_BAD_REQUEST,
      *  templateVar = "form"
      * )
@@ -187,7 +187,7 @@ class HousePublishingController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postHousePublishingAction(Request $request, $id)
+    public function postAuthorSrcAction(Request $request, $id)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -195,21 +195,21 @@ class HousePublishingController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $housePublishingManager = $this->container->get('n1c0_quote.manager.housePublishing');
-            $housePublishing = $housePublishingManager->createHousePublishing($quote);
+            $authorSrcManager = $this->container->get('n1c0_quote.manager.authorsrc');
+            $authorSrc = $authorSrcManager->createAuthorSrc($quote);
 
-            $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
-            $form->setData($housePublishing);
+            $form = $this->container->get('n1c0_quote.form_factory.authorsrc')->createForm();
+            $form->setData($authorSrc);
 
             if ('POST' === $request->getMethod()) {
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $housePublishingManager->saveHousePublishing($housePublishing);
+                    $authorSrcManager->saveAuthorSrc($authorSrc);
                 
                     $routeOptions = array(
                         'id' => $id,
-                        'housePublishingId' => $form->getData()->getId(),
+                        'authorSrcId' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -219,8 +219,8 @@ class HousePublishingController extends FOSRestController
                     $isAjax = $request->isXmlHttpRequest();
 
                     if($isAjax == false) { 
-                        // Add a method onCreateHousePublishingSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_quote_housePublishing', $routeOptions, Codes::HTTP_CREATED);
+                        // Add a method onCreateAuthorSrcSuccess(FormInterface $form)
+                        return $this->routeRedirectView('api_1_get_quote_authorsrc', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -233,32 +233,32 @@ class HousePublishingController extends FOSRestController
     }
 
     /**
-     * Update existing housePublishing from the submitted data or create a new housePublishing at a specific location.
+     * Update existing authorSrc from the submitted data or create a new authorSrc at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\HousePublishingType",
+     *   input = "N1c0\DemoBundle\Form\AuthorSrcType",
      *   statusCodes = {
-     *     201 = "Returned when the HousePublishing is created",
+     *     201 = "Returned when the AuthorSrc is created",
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
      *   }
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:HousePublishing:editQuoteHousePublishing.html.twig",
+     *  template = "N1c0QuoteBundle:AuthorSrc:editQuoteAuthorSrc.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the quote 
-     * @param int     $housePublishingId      the housePublishing id
+     * @param int     $authorSrcId      the authorSrc id
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when housePublishing not exist
+     * @throws NotFoundHttpException when authorSrc not exist
      */
-    public function putHousePublishingAction(Request $request, $id, $housePublishingId)
+    public function putAuthorSrcAction(Request $request, $id, $authorSrcId)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -266,15 +266,15 @@ class HousePublishingController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $housePublishing = $this->getOr404($housePublishingId);
+            $authorSrc = $this->getOr404($authorSrcId);
 
-            $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
-            $form->setData($housePublishing);
+            $form = $this->container->get('n1c0_quote.form_factory.authorsrc')->createForm();
+            $form->setData($authorSrc);
             $form->bind($request);
 
             if ($form->isValid()) {
-                $housePublishingManager = $this->container->get('n1c0_quote.manager.housePublishing');
-                if ($housePublishingManager->saveHousePublishing($housePublishing) !== false) {
+                $authorSrcManager = $this->container->get('n1c0_quote.manager.authorsrc');
+                if ($authorSrcManager->saveAuthorSrc($authorSrc) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -289,11 +289,11 @@ class HousePublishingController extends FOSRestController
     }
 
     /**
-     * Update existing housePublishing for a quote from the submitted data or create a new housePublishing at a specific location.
+     * Update existing authorSrc for a quote from the submitted data or create a new authorSrc at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\HousePublishingType",
+     *   input = "N1c0\DemoBundle\Form\AuthorSrcType",
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -301,19 +301,19 @@ class HousePublishingController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:HousePublishing:editQuoteHousePublishing.html.twig",
+     *  template = "N1c0QuoteBundle:AuthorSrc:editQuoteAuthorSrc.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the quote 
-     * @param int     $housePublishingId      the housePublishing id
+     * @param int     $authorSrcId      the authorSrc id
 
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when housePublishing not exist
+     * @throws NotFoundHttpException when authorSrc not exist
      */
-    public function patchHousePublishingAction(Request $request, $id, $housePublishingId)
+    public function patchAuthorSrcAction(Request $request, $id, $authorSrcId)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -321,15 +321,15 @@ class HousePublishingController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $housePublishing = $this->getOr404($housePublishingId);
+            $authorSrc = $this->getOr404($authorSrcId);
 
-            $form = $this->container->get('n1c0_quote.form_factory.housePublishing')->createForm();
-            $form->setData($housePublishing);
+            $form = $this->container->get('n1c0_quote.form_factory.authorsrc')->createForm();
+            $form->setData($authorSrc);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $housePublishingManager = $this->container->get('n1c0_quote.manager.housePublishing');
-                if ($housePublishingManager->saveHousePublishing($housePublishing) !== false) {
+                $authorSrcManager = $this->container->get('n1c0_quote.manager.authorsrc');
+                if ($authorSrcManager->saveAuthorSrc($authorSrc) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -344,11 +344,11 @@ class HousePublishingController extends FOSRestController
     }
 
     /**
-     * Get thread for an housePublishing.
+     * Get thread for an authorSrc.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a housePublishing thread",
+     *   description = "Gets a authorSrc thread",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
@@ -357,59 +357,59 @@ class HousePublishingController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the quote id
-     * @param int     $housePublishingId       the housePublishing id
+     * @param int     $authorSrcId       the authorSrc id
      *
      * @return array
      */
-    public function getHousePublishingThreadAction($id, $housePublishingId)
+    public function getAuthorSrcThreadAction($id, $authorSrcId)
     {
-        return $this->container->get('n1c0_quote.comment.quote_comment.default')->getThread($housePublishingId);
+        return $this->container->get('n1c0_quote.comment.quote_comment.default')->getThread($authorSrcId);
     }
 
     /**
-     * Fetch a HousePublishing or throw an 404 Exception.
+     * Fetch a AuthorSrc or throw an 404 Exception.
      *
      * @param mixed $id
      *
-     * @return HousePublishingInterface
+     * @return AuthorSrcInterface
      *
      * @throws NotFoundHttpException
      */
     protected function getOr404($id)
     {
-        if (!($housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingById($id))) {
+        if (!($authorSrc = $this->container->get('n1c0_quote.manager.authorsrc')->findAuthorSrcById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        return $housePublishing;
+        return $authorSrc;
     }
 
     /**
-     * Get download for the housePublishing.
+     * Get download for the authorSrc.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a download housePublishing",
+     *   description = "Gets a download authorSrc",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
-     * @Annotations\View(templateVar="housePublishing")
+     * @Annotations\View(templateVar="authorSrc")
      *
      * @param int     $id                  the quote uuid
-     * @param int     $housePublishingId      the housePublishing uuid
+     * @param int     $authorSrcId      the authorSrc uuid
      *
      * @return array
      * @throws NotFoundHttpException when quote not exist
      */
-    public function getHousePublishingDownloadAction($id, $housePublishingId)
+    public function getAuthorSrcDownloadAction($id, $authorSrcId)
     {
         if (!($quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        if (!($housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingById($housePublishingId))) {
+        if (!($authorSrc = $this->container->get('n1c0_quote.manager.authorsrc')->findAuthorSrcById($authorSrcId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
@@ -446,42 +446,42 @@ class HousePublishingController extends FOSRestController
         return array(
             'formats'        => $formats, 
             'id'             => $id,
-            'housePublishingId' => $housePublishingId
+            'authorSrcId' => $authorSrcId
         );
     }
 
     /**
-     * Convert the housePublishing in pdf format.
+     * Convert the authorSrc in pdf format.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Convert the housePublishing",
+     *   description = "Convert the authorSrc",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
      * @param int     $id                  the quote uuid
-     * @param int     $housePublishingId      the housePublishing uuid
+     * @param int     $authorSrcId      the authorSrc uuid
      * @param string  $format              the format to convert quote 
      *
      * @return Response
      * @throws NotFoundHttpException when quote not exist
      */
-    public function getHousePublishingConvertAction($id, $housePublishingId, $format)
+    public function getAuthorSrcConvertAction($id, $authorSrcId, $format)
     {
         if (!($quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id))) {
             throw new NotFoundHttpException(sprintf('The quote with the id \'%s\' was not found.',$id));
         }
 
-        if (!($housePublishing = $this->container->get('n1c0_quote.manager.housePublishing')->findHousePublishingById($housePublishingId))) {
+        if (!($authorSrc = $this->container->get('n1c0_quote.manager.authorsrc')->findAuthorSrcById($authorSrcId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        $housePublishingConvert = $this->container->get('n1c0_quote.housePublishing.download')->getConvert($housePublishingId, $format);
+        $authorSrcConvert = $this->container->get('n1c0_quote.authorsrc.download')->getConvert($authorSrcId, $format);
 
         $response = new Response();
-        $response->setContent($housePublishingConvert);
+        $response->setContent($authorSrcConvert);
         $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
@@ -530,7 +530,7 @@ class HousePublishingController extends FOSRestController
                 $ext = $format;       
         }
    
-        $response->headers->set('Content-disposition', 'filename='.$housePublishing->getTitle().'.'.$ext);
+        $response->headers->set('Content-disposition', 'filename='.$authorSrc->getTitle().'.'.$ext);
          
         return $response;
     }

@@ -18,46 +18,46 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use N1c0\QuoteBundle\Exception\InvalidFormException;
 use N1c0\QuoteBundle\Form\QuoteType;
 use N1c0\QuoteBundle\Model\QuoteInterface;
-use N1c0\QuoteBundle\Form\AuthorSrcType;
-use N1c0\QuoteBundle\Model\AuthorSrcInterface;
+use N1c0\QuoteBundle\Form\TagType;
+use N1c0\QuoteBundle\Model\TagInterface;
 
-class AuthorSrcController extends FOSRestController
+class TagController extends FOSRestController
 {
     /**
-     * Get single AuthorSrc.
+     * Get single Tag.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a AuthorSrc for a given id",
-     *   output = "N1c0\QuoteBundle\Entity\AuthorSrc",
+     *   description = "Gets a Tag for a given id",
+     *   output = "N1c0\QuoteBundle\Entity\Tag",
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the authorSrc or the quote is not found"
+     *     404 = "Returned when the tag or the quote is not found"
      *   }
      * )
      *
      *
-     * @Annotations\View(templateVar="authorSrc")
+     * @Annotations\View(templateVar="tag")
      *
      * @param int                   $id                   the quote id
-     * @param int                   $authorSrcId           the authorSrc id
+     * @param int                   $tagId           the tag id
      *
      * @return array
      *
-     * @throws NotFoundHttpException when authorSrc not exist
+     * @throws NotFoundHttpException when tag not exist
      */
-    public function getAuthorSrcAction($id, $authorSrcId)
+    public function getTagAction($id, $tagId)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
         
-        return $this->getOr404($authorSrcId);
+        return $this->getOr404($tagId);
     }
 
     /**
-     * Get the authorSrcs of a quote.
+     * Get the tags of a quote.
      *
      * @ApiDoc(
      *   resource = true,
@@ -66,29 +66,29 @@ class AuthorSrcController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing authorSrcs.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many authorSrcs to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing tags.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many tags to return.")
      *
      * @Annotations\View(
-     *  templateVar="authorSrcs"
+     *  templateVar="tags"
      * )
      *
      * @param int                   $id           the quote id
      *
      * @return array
      */
-    public function getAuthorSrcsAction($id)
+    public function getTagsAction($id)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_quote.manager.authorSrc')->findAuthorSrcsByQuote($quote);
+        return $this->container->get('n1c0_quote.manager.tag')->findTagsByQuote($quote);
     }
 
     /**
-     * Presents the form to use to create a new authorSrc.
+     * Presents the form to use to create a new tag.
      *
      * @ApiDoc(
      *   resource = true,
@@ -105,17 +105,17 @@ class AuthorSrcController extends FOSRestController
      *
      * @return FormTypeInterface
      */
-    public function newAuthorSrcAction($id)
+    public function newTagAction($id)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        $authorSrc = $this->container->get('n1c0_quote.manager.authorSrc')->createAuthorSrc($quote);
+        $tag = $this->container->get('n1c0_quote.manager.tag')->createTag($quote);
 
-        $form = $this->container->get('n1c0_quote.form_factory.authorSrc')->createForm();
-        $form->setData($authorSrc);
+        $form = $this->container->get('n1c0_quote.form_factory.tag')->createForm();
+        $form->setData($tag);
 
         return array(
             'form' => $form, 
@@ -124,7 +124,7 @@ class AuthorSrcController extends FOSRestController
     }
 
     /**
-     * Edits an authorSrc.
+     * Edits an tag.
      *
      * @ApiDoc(
      *   resource = true,
@@ -134,41 +134,41 @@ class AuthorSrcController extends FOSRestController
      * )
      * 
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:AuthorSrc:editAuthorSrc.html.twig",
+     *  template = "N1c0QuoteBundle:Tag:editTag.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param int     $id                       the quote id
-     * @param int     $authorSrcId           the authorSrc id
+     * @param int     $tagId           the tag id
      *
      * @return FormTypeInterface
      */
-    public function editAuthorSrcAction($id, $authorSrcId)
+    public function editTagAction($id, $tagId)
     {
         $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        $authorSrc = $this->getOr404($authorSrcId);
+        $tag = $this->getOr404($tagId);
 
-        $form = $this->container->get('n1c0_quote.form_factory.authorSrc')->createForm();
-        $form->setData($authorSrc);
+        $form = $this->container->get('n1c0_quote.form_factory.tag')->createForm();
+        $form->setData($tag);
     
         return array(
             'form'           => $form,
             'id'             => $id,
-            'authorSrcId' => $authorSrc->getId()
+            'tagId' => $tag->getId()
         );
     }
 
 
     /**
-     * Creates a new AuthorSrc for the Quote from the submitted data.
+     * Creates a new Tag for the Quote from the submitted data.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Creates a new authorSrc for the quote from the submitted data.",
-     *   input = "N1c0\QuoteBundle\Form\AuthorSrcType",
+     *   description = "Creates a new tag for the quote from the submitted data.",
+     *   input = "N1c0\QuoteBundle\Form\TagType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -177,7 +177,7 @@ class AuthorSrcController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:AuthorSrc:newAuthorSrc.html.twig",
+     *  template = "N1c0QuoteBundle:Tag:newTag.html.twig",
      *  statusCode = Codes::HTTP_BAD_REQUEST,
      *  templateVar = "form"
      * )
@@ -187,7 +187,7 @@ class AuthorSrcController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postAuthorSrcAction(Request $request, $id)
+    public function postTagAction(Request $request, $id)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -195,21 +195,21 @@ class AuthorSrcController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $authorSrcManager = $this->container->get('n1c0_quote.manager.authorSrc');
-            $authorSrc = $authorSrcManager->createAuthorSrc($quote);
+            $tagManager = $this->container->get('n1c0_quote.manager.tag');
+            $tag = $tagManager->createTag($quote);
 
-            $form = $this->container->get('n1c0_quote.form_factory.authorSrc')->createForm();
-            $form->setData($authorSrc);
+            $form = $this->container->get('n1c0_quote.form_factory.tag')->createForm();
+            $form->setData($tag);
 
             if ('POST' === $request->getMethod()) {
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $authorSrcManager->saveAuthorSrc($authorSrc);
+                    $tagManager->saveTag($tag);
                 
                     $routeOptions = array(
                         'id' => $id,
-                        'authorSrcId' => $form->getData()->getId(),
+                        'tagId' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -219,8 +219,8 @@ class AuthorSrcController extends FOSRestController
                     $isAjax = $request->isXmlHttpRequest();
 
                     if($isAjax == false) { 
-                        // Add a method onCreateAuthorSrcSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_quote_authorSrc', $routeOptions, Codes::HTTP_CREATED);
+                        // Add a method onCreateTagSuccess(FormInterface $form)
+                        return $this->routeRedirectView('api_1_get_quote_tag', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -233,32 +233,32 @@ class AuthorSrcController extends FOSRestController
     }
 
     /**
-     * Update existing authorSrc from the submitted data or create a new authorSrc at a specific location.
+     * Update existing tag from the submitted data or create a new tag at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\AuthorSrcType",
+     *   input = "N1c0\DemoBundle\Form\TagType",
      *   statusCodes = {
-     *     201 = "Returned when the AuthorSrc is created",
+     *     201 = "Returned when the Tag is created",
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
      *   }
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:AuthorSrc:editQuoteAuthorSrc.html.twig",
+     *  template = "N1c0QuoteBundle:Tag:editQuoteTag.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the quote 
-     * @param int     $authorSrcId      the authorSrc id
+     * @param int     $tagId      the tag id
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when authorSrc not exist
+     * @throws NotFoundHttpException when tag not exist
      */
-    public function putAuthorSrcAction(Request $request, $id, $authorSrcId)
+    public function putTagAction(Request $request, $id, $tagId)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -266,15 +266,15 @@ class AuthorSrcController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $authorSrc = $this->getOr404($authorSrcId);
+            $tag = $this->getOr404($tagId);
 
-            $form = $this->container->get('n1c0_quote.form_factory.authorSrc')->createForm();
-            $form->setData($authorSrc);
+            $form = $this->container->get('n1c0_quote.form_factory.tag')->createForm();
+            $form->setData($tag);
             $form->bind($request);
 
             if ($form->isValid()) {
-                $authorSrcManager = $this->container->get('n1c0_quote.manager.authorSrc');
-                if ($authorSrcManager->saveAuthorSrc($authorSrc) !== false) {
+                $tagManager = $this->container->get('n1c0_quote.manager.tag');
+                if ($tagManager->saveTag($tag) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -289,11 +289,11 @@ class AuthorSrcController extends FOSRestController
     }
 
     /**
-     * Update existing authorSrc for a quote from the submitted data or create a new authorSrc at a specific location.
+     * Update existing tag for a quote from the submitted data or create a new tag at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\AuthorSrcType",
+     *   input = "N1c0\DemoBundle\Form\TagType",
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -301,19 +301,19 @@ class AuthorSrcController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0QuoteBundle:AuthorSrc:editQuoteAuthorSrc.html.twig",
+     *  template = "N1c0QuoteBundle:Tag:editQuoteTag.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the quote 
-     * @param int     $authorSrcId      the authorSrc id
+     * @param int     $tagId      the tag id
 
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when authorSrc not exist
+     * @throws NotFoundHttpException when tag not exist
      */
-    public function patchAuthorSrcAction(Request $request, $id, $authorSrcId)
+    public function patchTagAction(Request $request, $id, $tagId)
     {
         try {
             $quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id);
@@ -321,15 +321,15 @@ class AuthorSrcController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
             }
 
-            $authorSrc = $this->getOr404($authorSrcId);
+            $tag = $this->getOr404($tagId);
 
-            $form = $this->container->get('n1c0_quote.form_factory.authorSrc')->createForm();
-            $form->setData($authorSrc);
+            $form = $this->container->get('n1c0_quote.form_factory.tag')->createForm();
+            $form->setData($tag);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $authorSrcManager = $this->container->get('n1c0_quote.manager.authorSrc');
-                if ($authorSrcManager->saveAuthorSrc($authorSrc) !== false) {
+                $tagManager = $this->container->get('n1c0_quote.manager.tag');
+                if ($tagManager->saveTag($tag) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -344,11 +344,11 @@ class AuthorSrcController extends FOSRestController
     }
 
     /**
-     * Get thread for an authorSrc.
+     * Get thread for an tag.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a authorSrc thread",
+     *   description = "Gets a tag thread",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
@@ -357,59 +357,59 @@ class AuthorSrcController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the quote id
-     * @param int     $authorSrcId       the authorSrc id
+     * @param int     $tagId       the tag id
      *
      * @return array
      */
-    public function getAuthorSrcThreadAction($id, $authorSrcId)
+    public function getTagThreadAction($id, $tagId)
     {
-        return $this->container->get('n1c0_quote.comment.quote_comment.default')->getThread($authorSrcId);
+        return $this->container->get('n1c0_quote.comment.quote_comment.default')->getThread($tagId);
     }
 
     /**
-     * Fetch a AuthorSrc or throw an 404 Exception.
+     * Fetch a Tag or throw an 404 Exception.
      *
      * @param mixed $id
      *
-     * @return AuthorSrcInterface
+     * @return TagInterface
      *
      * @throws NotFoundHttpException
      */
     protected function getOr404($id)
     {
-        if (!($authorSrc = $this->container->get('n1c0_quote.manager.authorSrc')->findAuthorSrcById($id))) {
+        if (!($tag = $this->container->get('n1c0_quote.manager.tag')->findTagById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        return $authorSrc;
+        return $tag;
     }
 
     /**
-     * Get download for the authorSrc.
+     * Get download for the tag.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a download authorSrc",
+     *   description = "Gets a download tag",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
-     * @Annotations\View(templateVar="authorSrc")
+     * @Annotations\View(templateVar="tag")
      *
      * @param int     $id                  the quote uuid
-     * @param int     $authorSrcId      the authorSrc uuid
+     * @param int     $tagId      the tag uuid
      *
      * @return array
      * @throws NotFoundHttpException when quote not exist
      */
-    public function getAuthorSrcDownloadAction($id, $authorSrcId)
+    public function getTagDownloadAction($id, $tagId)
     {
         if (!($quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        if (!($authorSrc = $this->container->get('n1c0_quote.manager.authorSrc')->findAuthorSrcById($authorSrcId))) {
+        if (!($tag = $this->container->get('n1c0_quote.manager.tag')->findTagById($tagId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
@@ -446,42 +446,42 @@ class AuthorSrcController extends FOSRestController
         return array(
             'formats'        => $formats, 
             'id'             => $id,
-            'authorSrcId' => $authorSrcId
+            'tagId' => $tagId
         );
     }
 
     /**
-     * Convert the authorSrc in pdf format.
+     * Convert the tag in pdf format.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Convert the authorSrc",
+     *   description = "Convert the tag",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
      * @param int     $id                  the quote uuid
-     * @param int     $authorSrcId      the authorSrc uuid
+     * @param int     $tagId      the tag uuid
      * @param string  $format              the format to convert quote 
      *
      * @return Response
      * @throws NotFoundHttpException when quote not exist
      */
-    public function getAuthorSrcConvertAction($id, $authorSrcId, $format)
+    public function getTagConvertAction($id, $tagId, $format)
     {
         if (!($quote = $this->container->get('n1c0_quote.manager.quote')->findQuoteById($id))) {
             throw new NotFoundHttpException(sprintf('The quote with the id \'%s\' was not found.',$id));
         }
 
-        if (!($authorSrc = $this->container->get('n1c0_quote.manager.authorSrc')->findAuthorSrcById($authorSrcId))) {
+        if (!($tag = $this->container->get('n1c0_quote.manager.tag')->findTagById($tagId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        $authorSrcConvert = $this->container->get('n1c0_quote.authorSrc.download')->getConvert($authorSrcId, $format);
+        $tagConvert = $this->container->get('n1c0_quote.tag.download')->getConvert($tagId, $format);
 
         $response = new Response();
-        $response->setContent($authorSrcConvert);
+        $response->setContent($tagConvert);
         $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
@@ -530,7 +530,7 @@ class AuthorSrcController extends FOSRestController
                 $ext = $format;       
         }
    
-        $response->headers->set('Content-disposition', 'filename='.$authorSrc->getTitle().'.'.$ext);
+        $response->headers->set('Content-disposition', 'filename='.$tag->getTitle().'.'.$ext);
          
         return $response;
     }

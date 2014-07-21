@@ -3,16 +3,16 @@
 namespace N1c0\DissertationBundle\EventListener;
 
 use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\TagsEvent;
-use N1c0\DissertationBundle\Model\SignedTagsInterface;
+use N1c0\DissertationBundle\Event\TagEvent;
+use N1c0\DissertationBundle\Model\SignedTagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Blames a tags using Symfony2 security component
+ * Blames a tag using Symfony2 security component
  */
-class TagsBlamerListener implements EventSubscriberInterface
+class TagBlamerListener implements EventSubscriberInterface
 {
     /**
      * @var SecurityContext
@@ -37,26 +37,26 @@ class TagsBlamerListener implements EventSubscriberInterface
     }
 
     /**
-     * Assigns the currently logged in user to a Tags.
+     * Assigns the currently logged in user to a Tag.
      *
-     * @param  \N1c0\DissertationBundle\Event\TagsEvent $event
+     * @param  \N1c0\DissertationBundle\Event\TagEvent $event
      * @return void
      */
-    public function blame(TagsEvent $event)
+    public function blame(TagEvent $event)
     {
-        $tags = $event->getTags();
+        $tag = $event->getTag();
 
         if (null === $this->securityContext) {
             if ($this->logger) {
-                $this->logger->debug("Tags Blamer did not receive the security.context service.");
+                $this->logger->debug("Tag Blamer did not receive the security.context service.");
             }
 
             return;
         }
 
-        if (!$tags instanceof SignedTagsInterface) {
+        if (!$tag instanceof SignedTagInterface) {
             if ($this->logger) {
-                $this->logger->debug("Tags does not implement SignedTagsInterface, skipping");
+                $this->logger->debug("Tag does not implement SignedTagInterface, skipping");
             }
 
             return;
@@ -72,18 +72,18 @@ class TagsBlamerListener implements EventSubscriberInterface
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->securityContext->getToken()->getUser();
-            $tags->setAuthor($user);
-            if (!$tags->getAuthors()->contains($user)) {
-                $tags->addAuthor($user);
+            $tag->setAuthor($user);
+            if (!$tag->getAuthors()->contains($user)) {
+                $tag->addAuthor($user);
             }
-            if (!$tags->getDissertation()->getAuthors()->contains($user)) {
-                $tags->getDissertation()->addAuthor($user);
+            if (!$tag->getDissertation()->getAuthors()->contains($user)) {
+                $tag->getDissertation()->addAuthor($user);
             }
         }
     }
 
     public static function getSubscribedEvents()
     {
-        return array(Events::TAGS_PRE_PERSIST => 'blame');
+        return array(Events::TAG_PRE_PERSIST => 'blame');
     }
 }

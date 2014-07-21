@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
 Interface HousePublishingInterface
 {
@@ -10,47 +10,27 @@ Interface HousePublishingInterface
     public function getId();
     
     /**
-     * Set title
+     * Set name 
      *
-     * @param string $title
+     * @param string $name
      * @return HousePublishingInterface
      */
-    public function setTitle($title);
+    public function setName($name);
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle();
+    public function getName();
 
     /**
-     * Set body
-     *
-     * @param string $body
-     * @return HousePublishingInterface
+     * @return QuoteInterface
      */
-    public function setBody($body);
+    public function getQuote();
 
     /**
-     * Get body
-     *
-     * @return string 
+     * @param QuoteInterface $quote
      */
-    public function getBody();
-
-    /**
-     * @return DissertationInterface
-     */
-    public function getDissertation();
-
-    /**
-     * @param DissertationInterface $dissertation
-     */
-    public function setDissertation(DissertationInterface $dissertation);
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt();
+    public function setQuote(QuoteInterface $quote);
 }

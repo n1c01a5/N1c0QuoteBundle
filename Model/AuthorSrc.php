@@ -1,11 +1,9 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
-
-use DateTime;
+namespace N1c0\QuoteBundle\Model;
 
 /**
- * Storage agnostic authorSrc dissertation object
+ * Storage agnostic authorSrc quote object
  */
 abstract class AuthorSrc implements AuthorSrcInterface
 {
@@ -17,49 +15,46 @@ abstract class AuthorSrc implements AuthorSrcInterface
     protected $id;
 
     /**
-     * Title
+     * Name
      *
      * @var string
      */
-    protected $title;
+    protected $name;
 
     /**
-     * Body
+     * Firstname
      *
      * @var string
      */
-    protected $body;
-    
+    protected $firstname;
+
+    /**
+     * Birthday
+     *
+     * @var datetime
+     */
+    protected $birthday;
+
+   /**
+     * Website
+     *
+     * @var string
+     */
+    protected $website;
+
+   /**
+     * Bio
+     *
+     * @var text
+     */
+    protected $bio;
+
     /**
      * Should be mapped by the end developer.
      *
-     * @var DissertationInterface
+     * @var QuoteInterface
      */
-    protected $dissertation;
-
-    /**
-     * CommitTitle
-     *
-     * @var string
-     */
-    protected $commitTitle;
-
-    /**
-     * CommitBody
-     *
-     * @var string
-     */
-    protected $commitBody;
-
-    /**
-     * @var DateTime
-     */
-    protected $createdAt;
-
-    public function __construct()
-    {
-        $this->createdAt = new DateTime();
-    }
+    protected $quote;
 
     /**
      * @return mixed
@@ -68,109 +63,108 @@ abstract class AuthorSrc implements AuthorSrcInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
-    public function getBody()
+    public function getName()
     {
-        return $this->body;
+        return $this->name;
     }
 
     /**
      * @param  string
      * @return null
      */
-    public function setBody($body)
+    public function setName($name)
     {
-        $this->body = $body;
+        $this->name = $name;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
+    public function getFirstName()
     {
-        return $this->title;
+        return $this->firstname;
     }
-
 
     /**
      * @param  string
      * @return null
      */
-    public function setTitle($title)
+    public function setFirstName($firstname)
     {
-        $this->title = $title;
+        $this->firstname = $firstname;
     }
 
     /**
-     * @return DissertationInterface
+     * @return string
      */
-    public function getDissertation()
+    public function getBirthday()
     {
-        return $this->dissertation;
+        return $this->birthday;
     }
 
     /**
-     * @param DissertationInterface $dissertation
+     * @param  string
+     * @return null
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+    }
+
+    /**
+     * @return text
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * @param  text
+     * @return null
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+    }
+
+    /**
+     * @return QuoteInterface
+     */
+    public function getQuote()
+    {
+        return $this->quote;
+    }
+
+    /**
+     * @param QuoteInterface $quote
      *
      * @return void
      */
-    public function setDissertation(DissertationInterface $dissertation)
+    public function setQuote(QuoteInterface $quote)
     {
-        $this->dissertation = $dissertation;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommitBody()
-    {
-        return $this->commitBody;
-    }
-
-    /**
-     * @param  string
-     * @return null
-     */
-    public function setCommitBody($commitBody)
-    {
-        $this->commitBody = $commitBody;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommitTitle()
-    {
-        return $this->commitTitle;
-    }
-
-    /**
-     * @param  string
-     * @return null
-     */
-    public function setCommitTitle($commitTitle)
-    {
-        $this->commitTitle = $commitTitle;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Sets the creation date
-     * @param DateTime $createdAt
-     */
-    public function setCreatedAt(DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
+        $this->quote = $quote;
     }
 
     /**

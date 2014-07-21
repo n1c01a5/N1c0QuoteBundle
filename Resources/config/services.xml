@@ -9,19 +9,19 @@
         <parameter key="n1c0_quote.model.quote.class">N1c0\QuoteBundle\Entity\Quote</parameter>
         <parameter key="n1c0_quote.model.authorsrc.class">N1c0\QuoteBundle\Entity\AuthorSrc</parameter>
         <parameter key="n1c0_quote.model.housepublishing.class">N1c0\QuoteBundle\Entity\HousePublishing</parameter>
-        <parameter key="n1c0_quote.model.tags.class">N1c0\QuoteBundle\Entity\Tags</parameter>
+        <parameter key="n1c0_quote.model.tag.class">N1c0\QuoteBundle\Entity\Tag</parameter>
         
         <parameter key="n1c0_quote.manager.quote.default.class">N1c0\QuoteBundle\Entity\QuoteManager</parameter>
-        <parameter key="n1c0_quote.manager.authorsrc.default.class">N1c0\QuoteBundle\Entity\AuthorSrc</parameter>
-        <parameter key="n1c0_quote.manager.housepublishing.default.class">N1c0\QuoteBundle\Entity\HousePublishing</parameter>
-        <parameter key="n1c0_quote.manager.tags.default.class">N1c0\QuoteBundle\Entity\Tags</parameter>
+        <parameter key="n1c0_quote.manager.authorsrc.default.class">N1c0\QuoteBundle\Entity\AuthorSrcManager</parameter>
+        <parameter key="n1c0_quote.manager.housepublishing.default.class">N1c0\QuoteBundle\Entity\HousePublishingManager</parameter>
+        <parameter key="n1c0_quote.manager.tag.default.class">N1c0\QuoteBundle\Entity\TagManager</parameter>
         <parameter key="n1c0_quote.listener.quote_blamer.class">N1c0\QuoteBundle\EventListener\QuoteBlamerListener</parameter>
         <parameter key="n1c0_quote.comment.quote_comment.class">N1c0\QuoteBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
         <parameter key="n1c0_quote.manager.quote.acl.class">N1c0\QuoteBundle\Acl\AclQuoteManager</parameter>
         <parameter key="n1c0_quote.manager.authorsrc.acl.class">N1c0\QuoteBundle\Acl\AclAuthorSrcManager</parameter>
         <parameter key="n1c0_quote.manager.housepublishing.acl.class">N1c0\QuoteBundle\Acl\AclHousePublishingManager</parameter>
-        <parameter key="n1c0_quote.manager.tags.acl.class">N1c0\QuoteBundle\Acl\AclTagsManager</parameter>
+        <parameter key="n1c0_quote.manager.tag.acl.class">N1c0\QuoteBundle\Acl\AclTagManager</parameter>
         <parameter key="n1c0_quote.download.quote.class">N1c0\QuoteBundle\Download\DownloadQuote</parameter>
     </parameters>
 
@@ -46,10 +46,10 @@
             <argument type="service" id="n1c0_quote.entity_manager" />
             <argument>%n1c0_quote.model.housepublishing.class%</argument>
         </service>
-        <service id="n1c0_quote.manager.tags.default" class="%n1c0_quote.manager.tags.default.class%">
+        <service id="n1c0_quote.manager.tag.default" class="%n1c0_quote.manager.tag.default.class%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="n1c0_quote.entity_manager" />
-            <argument>%n1c0_quote.model.tags.class%</argument>
+            <argument>%n1c0_quote.model.tag.class%</argument>
         </service>
 
 
@@ -86,15 +86,15 @@
             <argument>%n1c0_quote.form.housepublishing.name%</argument>
         </service>
 
-        <service id="n1c0_quote.form_type.tags.default" class="N1c0\QuoteBundle\Form\TagsType">
-            <argument>%n1c0_quote.model.tags.class%</argument>
-            <tag name="form.type" alias="n1c0_quote_tags" />
+        <service id="n1c0_quote.form_type.tag.default" class="N1c0\QuoteBundle\Form\TagType">
+            <argument>%n1c0_quote.model.tag.class%</argument>
+            <tag name="form.type" alias="n1c0_quote_tag" />
         </service>
 
-        <service id="n1c0_quote.form_factory.tags.default" class="N1c0\QuoteBundle\FormFactory\TagsFormFactory" public="false">
+        <service id="n1c0_quote.form_factory.tag.default" class="N1c0\QuoteBundle\FormFactory\TagFormFactory" public="false">
             <argument type="service" id="form.factory" />
-            <argument>%n1c0_quote.form.tags.type%</argument>
-            <argument>%n1c0_quote.form.tags.name%</argument>
+            <argument>%n1c0_quote.form.tag.type%</argument>
+            <argument>%n1c0_quote.form.tag.name%</argument>
         </service>
 
         <service id="n1c0_quote.listener.quote_blamer" class="%n1c0_quote.listener.quote_blamer.class%">
@@ -127,11 +127,11 @@
             <argument type="service" id="security.acl.provider" />
             <argument>%n1c0_quote.model.housepublishing.class%</argument>
         </service>
-        <service id="n1c0_quote.acl.tags.security" class="N1c0\QuoteBundle\Acl\SecurityTagsAcl">
+        <service id="n1c0_quote.acl.tag.security" class="N1c0\QuoteBundle\Acl\SecurityTagAcl">
             <argument type="service" id="security.context" />
             <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
             <argument type="service" id="security.acl.provider" />
-            <argument>%n1c0_quote.model.tags.class%</argument>
+            <argument>%n1c0_quote.model.tag.class%</argument>
         </service>
 
         <service id="n1c0_quote.acl.quote.roles" class="N1c0\QuoteBundle\Acl\RoleQuoteAcl">
@@ -158,13 +158,13 @@
             <argument /> <!-- Delete role -->
             <argument>%n1c0_quote.model.housepublishing.class%</argument>
         </service>
-        <service id="n1c0_quote.acl.tags.roles" class="N1c0\QuoteBundle\Acl\RoleTagsAcl">
+        <service id="n1c0_quote.acl.tag.roles" class="N1c0\QuoteBundle\Acl\RoleTagAcl">
             <argument type="service" id="security.context" />
             <argument /> <!-- Create role -->
             <argument /> <!-- View role -->
             <argument /> <!-- Edit role -->
             <argument /> <!-- Delete role -->
-            <argument>%n1c0_quote.model.tags.class%</argument>
+            <argument>%n1c0_quote.model.tag.class%</argument>
         </service>
 
         <service id="n1c0_quote.manager.quote.acl" class="%n1c0_quote.manager.quote.acl.class%" public="false">
@@ -179,9 +179,9 @@
             <argument type="service" id="n1c0_quote.manager.housepublishing.default" />
             <argument type="service" id="n1c0_quote.acl.housepublishing" />
         </service>
-        <service id="n1c0_quote.manager.tags.acl" class="%n1c0_quote.manager.tags.acl.class%" public="false">
-            <argument type="service" id="n1c0_quote.manager.tags.default" />
-            <argument type="service" id="n1c0_quote.acl.tags" />
+        <service id="n1c0_quote.manager.tag.acl" class="%n1c0_quote.manager.tag.acl.class%" public="false">
+            <argument type="service" id="n1c0_quote.manager.tag.default" />
+            <argument type="service" id="n1c0_quote.acl.tag" />
         </service>
 
         <service id="n1c0_quote.quote.download" class="%n1c0_quote.download.quote.class%">

@@ -3,9 +3,9 @@
 namespace N1c0\DissertationBundle\EventListener;
 
 use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\TagsEvent;
+use N1c0\DissertationBundle\Event\TagEvent;
 use N1c0\DissertationBundle\Markup\ParserInterface;
-use N1c0\DissertationBundle\Model\RawTagsInterface;
+use N1c0\DissertationBundle\Model\RawTagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-class TagsMarkupListener implements EventSubscriberInterface
+class TagMarkupListener implements EventSubscriberInterface
 {
     /**
      * @var ParserInterface
@@ -35,13 +35,13 @@ class TagsMarkupListener implements EventSubscriberInterface
      * Parses raw housePublishing data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\DissertationBundle\Event\TagsEvent $event
+     * @param \N1c0\DissertationBundle\Event\TagEvent $event
      */
-    public function markup(TagsEvent $event)
+    public function markup(TagEvent $event)
     {
-        $housePublishing = $event->getTags();
+        $housePublishing = $event->getTag();
 
-        if (!$housePublishing instanceof RawTagsInterface) {
+        if (!$housePublishing instanceof RawTagInterface) {
             return;
         }
 

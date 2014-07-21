@@ -7,17 +7,23 @@ n1c0_quote_quote:
 n1c0_quote_authorsrc:
     type: rest
     parent: n1c0_quote_quote
-    resource: N1c0\QuoteBundle\Controller\AuthorSrcController
+    resource: N1c0\QuoteBundle\Controller\AuthorsrcController
     name_prefix:  api_1_ # naming collision
 
 n1c0_quote_housepublishing:
     type: rest
     parent: n1c0_quote_quote
-    resource: N1c0\QuoteBundle\Controller\HousePublishingController
+    resource: N1c0\QuoteBundle\Controller\HousepublishingController
     name_prefix:  api_1_ # naming collision
 
-n1c0_quote_tags:
+n1c0_quote_tag:
     type: rest
     parent: n1c0_quote_quote
-    resource: N1c0\QuoteBundle\Controller\TagsController
+    resource: N1c0\QuoteBundle\Controller\TagController
     name_prefix:  api_1_ # naming collision
+
+n1c0_quote_quote_logs:
+    type: rest
+    parent: n1c0_quote_quote
+    resource: N1c0\QuoteBundle\Controller\LogQuoteController
+    name_prefix:  api_1_ # naming coll

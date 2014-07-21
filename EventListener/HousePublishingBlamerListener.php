@@ -3,8 +3,8 @@
 namespace N1c0\DissertationBundle\EventListener;
 
 use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\TagsEvent;
-use N1c0\DissertationBundle\Model\SignedTagsInterface;
+use N1c0\DissertationBundle\Event\TagEvent;
+use N1c0\DissertationBundle\Model\SignedTagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Blames a housePublishing using Symfony2 security component
  */
-class TagsBlamerListener implements EventSubscriberInterface
+class TagBlamerListener implements EventSubscriberInterface
 {
     /**
      * @var SecurityContext
@@ -37,26 +37,26 @@ class TagsBlamerListener implements EventSubscriberInterface
     }
 
     /**
-     * Assigns the currently logged in user to a Tags.
+     * Assigns the currently logged in user to a Tag.
      *
-     * @param  \N1c0\DissertationBundle\Event\TagsEvent $event
+     * @param  \N1c0\DissertationBundle\Event\TagEvent $event
      * @return void
      */
-    public function blame(TagsEvent $event)
+    public function blame(TagEvent $event)
     {
-        $housePublishing = $event->getTags();
+        $housePublishing = $event->getTag();
 
         if (null === $this->securityContext) {
             if ($this->logger) {
-                $this->logger->debug("Tags Blamer did not receive the security.context service.");
+                $this->logger->debug("Tag Blamer did not receive the security.context service.");
             }
 
             return;
         }
 
-        if (!$housePublishing instanceof SignedTagsInterface) {
+        if (!$housePublishing instanceof SignedTagInterface) {
             if ($this->logger) {
-                $this->logger->debug("Tags does not implement SignedTagsInterface, skipping");
+                $this->logger->debug("Tag does not implement SignedTagInterface, skipping");
             }
 
             return;

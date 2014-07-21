@@ -1,11 +1,11 @@
 <?php
 
-namespace N1c0\DissertationBundle\Entity;
+namespace N1c0\QuoteBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use N1c0\DissertationBundle\Model\HousePublishingManager as BaseHousePublishingManager;
-use N1c0\DissertationBundle\Model\DissertationInterface;
-use N1c0\DissertationBundle\Model\HousePublishingInterface;
+use N1c0\QuoteBundle\Model\HousePublishingManager as BaseHousePublishingManager;
+use N1c0\QuoteBundle\Model\QuoteInterface;
+use N1c0\QuoteBundle\Model\HousePublishingInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -48,19 +48,18 @@ class HousePublishingManager extends BaseHousePublishingManager
     }
 
     /**
-     * Returns a flat array of housePublishings of a specific dissertation.
+     * Returns a flat array of housePublishings of a specific quote.
      *
-     * @param  DissertationInterface $dissertation
-     * @return array           of DissertationInterface
+     * @param  QuoteInterface $quote
+     * @return array           of QuoteInterface
      */
-    public function findHousePublishingsByDissertation(DissertationInterface $dissertation)
+    public function findHousePublishingsByQuote(QuoteInterface $quote)
     {
         $qb = $this->repository
                 ->createQueryBuilder('i')
-                ->join('i.dissertation', 'd')
-                ->where('d.id = :dissertation')
-                ->add('orderBy', 'p.createdAt DESC')
-                ->setParameter('dissertation', $dissertation->getId());
+                ->join('i.quote', 'd')
+                ->where('d.id = :quote')
+                ->setParameter('quote', $quote->getId());
 
         $housePublishings = $qb
             ->getQuery()
@@ -75,7 +74,7 @@ class HousePublishingManager extends BaseHousePublishingManager
      * @param  array           $criteria
      * @return HousePublishingInterface
      */
-    public function findDissertationById($id)
+    public function findQuoteById($id)
     {
         return $this->repository->find($id);
     }
@@ -93,17 +92,17 @@ class HousePublishingManager extends BaseHousePublishingManager
     /**
      * Performs persisting of the housePublishing. 
      *
-     * @param DissertationInterface $dissertation
+     * @param QuoteInterface $quote
      */
     protected function doSaveHousePublishing(HousePublishingInterface $housePublishing)
     {
-        $this->em->persist($housePublishing->getDissertation());
+        $this->em->persist($housePublishing->getQuote());
         $this->em->persist($housePublishing);
         $this->em->flush();
     }
 
     /**
-     * Returns the fully qualified housePublishing dissertation class name
+     * Returns the fully qualified housePublishing quote class name
      *
      * @return string
      **/

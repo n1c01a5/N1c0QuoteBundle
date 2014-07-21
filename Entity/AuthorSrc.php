@@ -1,8 +1,8 @@
 <?php
 
-namespace N1c0\DissertationBundle\Entity;
+namespace N1c0\QuoteBundle\Entity;
 
-use N1c0\DissertationBundle\Model\AuthorSrc as AbstractAuthorSrc;
+use N1c0\QuoteBundle\Model\AuthorSrc as AbstractAuthorSrc;
 
 use Hateoas\Configuration\Annotation as Hateoas;
 
@@ -10,13 +10,12 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @Hateoas\Relation(
  *     name = "self",
  *     href = @Hateoas\Route(
- *         "api_1_get_dissertation_authorSrc",
- *         parameters = { "id" = "expr(object.getDissertation().getId())", "authorSrcId" = "expr(object.getId())" },
+ *         "api_1_get_quote_authorsrc",
+ *         parameters = { "id" = "expr(object.getQuote().getId())", "authorsrcId" = "expr(object.getId())" },
  *         absolute = true
  *     )
  * )
  */
 abstract class AuthorSrc extends AbstractAuthorSrc
 {
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Model;
+namespace N1c0\QuoteBundle\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 

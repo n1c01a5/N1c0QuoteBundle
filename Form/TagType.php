@@ -6,13 +6,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TagsType extends AbstractType
+class TagType extends AbstractType
 {
-    private $tagsClass;
+    private $tagClass;
 
-    public function __construct($tagsClass)
+    public function __construct($tagClass)
     {
-        $this->tagsClass = $tagsClass;
+        $this->tagClass = $tagClass;
     }
 
     /**
@@ -36,7 +36,7 @@ class TagsType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => $this->tagsClass,
+            'data_class' => $this->tagClass,
             'csrf_protection' => false,
         ));
     }
@@ -46,6 +46,6 @@ class TagsType extends AbstractType
      */
     public function getName()
     {
-        return 'n1c0_dissertation_tags';
+        return 'n1c0_dissertation_tag';
     }
 }
