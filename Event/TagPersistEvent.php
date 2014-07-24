@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Event;
+namespace N1c0\QuoteBundle\Event;
 
 /**
  * An event related to a persisting event that can be

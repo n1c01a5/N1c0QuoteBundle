@@ -56,10 +56,10 @@ class TagManager extends BaseTagManager
     public function findTagsByQuote(QuoteInterface $quote)
     {
         $qb = $this->repository
-                ->createQueryBuilder('i')
-                ->join('i.quote', 'd')
-                ->where('d.id = :quote')
-                ->setParameter('quote', $quote->getId());
+                ->createQueryBuilder('t')
+                ->join('t.quotes', 'd')
+                ->where('d.id = :quotes')
+                ->setParameter('quotes', $quote->getId());
 
         $tags = $qb
             ->getQuery()
@@ -96,7 +96,8 @@ class TagManager extends BaseTagManager
      */
     protected function doSaveTag(TagInterface $tag)
     {
-        $this->em->persist($tag->getQuote());
+        $tag->addQuote($tag->getQuote());
+        //$this->em->persist($tag->getQuote());
         $this->em->persist($tag);
         $this->em->flush();
     }

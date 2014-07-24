@@ -22,6 +22,12 @@ n1c0_quote_tag:
     resource: N1c0\QuoteBundle\Controller\TagController
     name_prefix:  api_1_ # naming collision
 
+n1c0_quote_book:
+    type: rest
+    parent: n1c0_quote_quote
+    resource: N1c0\QuoteBundle\Controller\BookController
+    name_prefix:  api_1_ # naming collision
+
 n1c0_quote_quote_logs:
     type: rest
     parent: n1c0_quote_quote

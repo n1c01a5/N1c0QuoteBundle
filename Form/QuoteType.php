@@ -24,6 +24,7 @@ class QuoteType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
+            ->add('createdAt')
         ;
     }
     

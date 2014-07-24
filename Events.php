@@ -45,11 +45,11 @@ final class Events
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the AuthorSrc.
+     * persisting the Authorsrc.
      *
-     * This event allows you to modify the data in the AuthorSrc prior
+     * This event allows you to modify the data in the Authorsrc prior
      * to persisting occuring. The listener receives a
-     * N1c0\QuoteBundle\Event\AuthorSrcPersistEvent instance.
+     * N1c0\QuoteBundle\Event\AuthorsrcPersistEvent instance.
      *
      * Persisting of the quote can be aborted by calling
      * $event->abortPersist()
@@ -60,12 +60,12 @@ final class Events
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the AuthorSrc.
+     * persisted the Authorsrc.
      *
      * This event allows you to notify users or perform other actions
-     * that might require the AuthorSrc to be persisted before performing
+     * that might require the Authorsrc to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\QuoteBundle\Event\AuthorSrcEvent instance.
+     * N1c0\QuoteBundle\Event\AuthorsrcEvent instance.
      *
      * @var string
      */
@@ -73,9 +73,9 @@ final class Events
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a AuthorSrc.
+     * a new instance of a Authorsrc.
      *
-     * The listener receives a N1c0\QuoteBundle\Event\AuthorSrcEvent
+     * The listener receives a N1c0\QuoteBundle\Event\AuthorsrcEvent
      * instance.
      *
      * @var string
@@ -84,11 +84,11 @@ final class Events
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the HousePublishing.
+     * persisting the Housepublishing.
      *
-     * This event allows you to modify the data in the AuthorSrc prior
+     * This event allows you to modify the data in the Authorsrc prior
      * to persisting occuring. The listener receives a
-     * N1c0\QuoteBundle\Event\HousePublishingPersistEvent instance.
+     * N1c0\QuoteBundle\Event\HousepublishingPersistEvent instance.
      *
      * Persisting of the quote can be aborted by calling
      * $event->abortPersist()
@@ -99,12 +99,12 @@ final class Events
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the HousePublishing.
+     * persisted the Housepublishing.
      *
      * This event allows you to notify users or perform other actions
-     * that might require the HousePublishing to be persisted before performing
+     * that might require the Housepublishing to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\QuoteBundle\Event\HousePublishingEvent instance.
+     * N1c0\QuoteBundle\Event\HousepublishingEvent instance.
      *
      * @var string
      */
@@ -112,9 +112,9 @@ final class Events
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a HousePublishing.
+     * a new instance of a Housepublishing.
      *
-     * The listener receives a N1c0\QuoteBundle\Event\HousePublishingEvent
+     * The listener receives a N1c0\QuoteBundle\Event\HousepublishingEvent
      * instance.
      *
      * @var string
@@ -125,7 +125,7 @@ final class Events
      * The PRE_PERSIST event occurs prior to the persistence backend
      * persisting the Tag.
      *
-     * This event allows you to modify the data in the AuthorSrc prior
+     * This event allows you to modify the data in the Authorsrc prior
      * to persisting occuring. The listener receives a
      * N1c0\QuoteBundle\Event\TagPersistEvent instance.
      *
@@ -159,4 +159,43 @@ final class Events
      * @var string
      */
     const TAG_CREATE = 'n1c0_quote.tag.create';
+
+    /**
+     * The PRE_PERSIST event occurs prior to the persistence backend
+     * persisting the Book.
+     *
+     * This event allows you to modify the data in the Book prior
+     * to persisting occuring. The listener receives a
+     * N1c0\QuoteBundle\Event\BookPersistEvent instance.
+     *
+     * Persisting of the quote can be aborted by calling
+     * $event->abortPersist()
+     *
+     * @var string
+     */
+    const BOOK_PRE_PERSIST = 'n1c0_quote.book.pre_persist';
+
+    /**
+     * The POST_PERSIST event occurs after the persistence backend
+     * persisted the Quote.
+     *
+     * This event allows you to notify users or perform other actions
+     * that might require the Quote to be persisted before performing
+     * those actions. The listener receives a
+     * N1c0\QuoteBundle\Event\BookEvent instance.
+     *
+     * @var string
+     */
+    const BOOK_POST_PERSIST = 'n1c0_quote.book.post_persist';
+
+    /**
+     * The CREATE event occurs when the manager is asked to create
+     * a new instance of a Book.
+     *
+     * The listener receives a N1c0\QuoteBundle\Event\BookEvent
+     * instance.
+     *
+     * @var string
+     */
+    const BOOK_CREATE = 'n1c0_quote.book.create';
 }

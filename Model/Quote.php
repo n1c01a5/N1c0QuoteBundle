@@ -32,6 +32,14 @@ abstract class Quote implements QuoteInterface
     protected $body;
 
     /**
+     * CreatedAt
+     *
+     * @var date
+     */
+    protected $createdAt;
+
+
+    /**
      * Current state of the quote.
      *
      * @var integer
@@ -44,11 +52,6 @@ abstract class Quote implements QuoteInterface
      * @var integer
      */
     protected $previousState = 0;
-
-    public function __construct()
-    {
-        $this->createdAt = new DateTime();
-    }
 
     /**
      * @return mixed
@@ -92,6 +95,22 @@ abstract class Quote implements QuoteInterface
         $this->title = $title;
     }
 
+    /**
+     * @return date
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param  date
+     * @return null
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
     /**
      * @return array with the names of the quote authors
      */

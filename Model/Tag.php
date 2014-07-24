@@ -21,6 +21,12 @@ abstract class Tag implements TagInterface
      */
     protected $title;
 
+    /**
+     * Should be mapped by the end developer.
+     *
+     * @var QuoteInterface
+     */
+    protected $quote;
 
     /**
      * @return mixed
@@ -29,8 +35,6 @@ abstract class Tag implements TagInterface
     {
         return $this->id;
     }
-    
-
 
     /**
      * @return string
@@ -48,6 +52,24 @@ abstract class Tag implements TagInterface
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return QuoteInterface
+     */
+    public function getQuote()
+    {
+        return $this->quote;
+    }
+
+    /**
+     * @param QuoteInterface $quote
+     *
+     * @return void
+     */
+    public function setQuote(QuoteInterface $quote)
+    {
+        $this->quote = $quote;
     }
 
     /**

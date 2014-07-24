@@ -1,10 +1,10 @@
 <?php
 
-namespace N1c0\DissertationBundle\EventListener;
+namespace N1c0\QuoteBundle\EventListener;
 
-use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\TagEvent;
-use N1c0\DissertationBundle\Model\SignedTagInterface;
+use N1c0\QuoteBundle\Events;
+use N1c0\QuoteBundle\Event\TagEvent;
+use N1c0\QuoteBundle\Model\SignedTagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -39,7 +39,7 @@ class TagBlamerListener implements EventSubscriberInterface
     /**
      * Assigns the currently logged in user to a Tag.
      *
-     * @param  \N1c0\DissertationBundle\Event\TagEvent $event
+     * @param  \N1c0\QuoteBundle\Event\TagEvent $event
      * @return void
      */
     public function blame(TagEvent $event)
@@ -76,8 +76,8 @@ class TagBlamerListener implements EventSubscriberInterface
             if (!$tag->getAuthors()->contains($user)) {
                 $tag->addAuthor($user);
             }
-            if (!$tag->getDissertation()->getAuthors()->contains($user)) {
-                $tag->getDissertation()->addAuthor($user);
+            if (!$tag->getQuote()->getAuthors()->contains($user)) {
+                $tag->getQuote()->addAuthor($user);
             }
         }
     }

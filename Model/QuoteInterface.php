@@ -58,6 +58,20 @@ Interface QuoteInterface
     public function getBody();
 
     /**
+     * Set createdAt
+     *
+     * @param date $createdAt
+     * @return QuoteInterface
+     */
+    public function setCreatedAt($createdAt);
+
+    /**
+     * Get createdAT
+     *
+     * @return date 
+     */
+    public function getCreatedAt();
+    /**
      * @return integer The current state of the comment
      */
     public function getState();

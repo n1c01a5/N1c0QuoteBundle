@@ -1,8 +1,8 @@
 <?php
 
-namespace N1c0\DissertationBundle\Acl;
+namespace N1c0\QuoteBundle\Acl;
 
-use N1c0\DissertationBundle\Model\TagInterface;
+use N1c0\QuoteBundle\Model\TagInterface;
 
 /**
  * Used for checking if the ACL system will allow specific actions

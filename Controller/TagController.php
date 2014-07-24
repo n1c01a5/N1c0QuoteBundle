@@ -73,7 +73,7 @@ class TagController extends FOSRestController
      *  templateVar="tags"
      * )
      *
-     * @param int                   $id           the quote id
+     * @param int     $id                  the quote uuid
      *
      * @return array
      */
@@ -208,8 +208,8 @@ class TagController extends FOSRestController
                     $tagManager->saveTag($tag);
                 
                     $routeOptions = array(
-                        'id' => $id,
-                        'tagId' => $form->getData()->getId(),
+                        'id'      => $id,
+                        'tagId'   => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace N1c0\DissertationBundle\Event;
+namespace N1c0\QuoteBundle\Event;
 
-use N1c0\DissertationBundle\Model\TagInterface;
+use N1c0\QuoteBundle\Model\TagInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -15,7 +15,7 @@ class TagEvent extends Event
     /**
      * Constructs an event.
      *
-     * @param \n1c0\DissertationBundle\Model\TagInterface $tag
+     * @param \n1c0\QuoteBundle\Model\TagInterface $tag
      */
     public function __construct(TagInterface $tag)
     {
@@ -25,7 +25,7 @@ class TagEvent extends Event
     /**
      * Returns the tag for this event.
      *
-     * @return \n1c0\DissertationBundle\Model\TagInterface
+     * @return \n1c0\QuoteBundle\Model\TagInterface
      */
     public function getTag()
     {

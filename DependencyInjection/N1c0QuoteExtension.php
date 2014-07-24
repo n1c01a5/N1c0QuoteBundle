@@ -43,6 +43,7 @@ class N1c0QuoteExtension extends Extension
         $container->setParameter('n1c0_quote.model.authorsrc.class', $config['class']['model']['authorsrc']);
         $container->setParameter('n1c0_quote.model.housepublishing.class', $config['class']['model']['housepublishing']);
         $container->setParameter('n1c0_quote.model.tag.class', $config['class']['model']['tag']);
+        $container->setParameter('n1c0_quote.model.book.class', $config['class']['model']['book']);
 
         $container->setParameter('n1c0_quote.model_manager_name', $config['model_manager_name']);
 
@@ -50,21 +51,25 @@ class N1c0QuoteExtension extends Extension
         $container->setParameter('n1c0_quote.form.authorsrc.type', $config['form']['authorsrc']['type']);
         $container->setParameter('n1c0_quote.form.housepublishing.type', $config['form']['housepublishing']['type']);
         $container->setParameter('n1c0_quote.form.tag.type', $config['form']['tag']['type']);
+        $container->setParameter('n1c0_quote.form.book.type', $config['form']['book']['type']);
 
         $container->setParameter('n1c0_quote.form.quote.name', $config['form']['quote']['name']);
         $container->setParameter('n1c0_quote.form.authorsrc.name', $config['form']['authorsrc']['name']);
         $container->setParameter('n1c0_quote.form.housepublishing.name', $config['form']['housepublishing']['name']);
         $container->setParameter('n1c0_quote.form.tag.name', $config['form']['tag']['name']);
+        $container->setParameter('n1c0_quote.form.book.name', $config['form']['book']['name']);
 
         $container->setAlias('n1c0_quote.form_factory.quote', $config['service']['form_factory']['quote']);
         $container->setAlias('n1c0_quote.form_factory.authorsrc', $config['service']['form_factory']['authorsrc']);
         $container->setAlias('n1c0_quote.form_factory.housepublishing', $config['service']['form_factory']['housepublishing']);
         $container->setAlias('n1c0_quote.form_factory.tag', $config['service']['form_factory']['tag']);
+        $container->setAlias('n1c0_quote.form_factory.book', $config['service']['form_factory']['book']);
 
         $container->setAlias('n1c0_quote.manager.quote', $config['service']['manager']['quote']);
         $container->setAlias('n1c0_quote.manager.authorsrc', $config['service']['manager']['authorsrc']);
         $container->setAlias('n1c0_quote.manager.housepublishing', $config['service']['manager']['housepublishing']);
         $container->setAlias('n1c0_quote.manager.tag', $config['service']['manager']['tag']);
+        $container->setAlias('n1c0_quote.manager.book', $config['service']['manager']['book']);
     }
 
     protected function loadAcl(ContainerBuilder $container, array $config)
@@ -77,11 +82,13 @@ class N1c0QuoteExtension extends Extension
             $container->getDefinition('n1c0_quote.acl.authorsrc.roles')->replaceArgument($index, $config['acl_roles']['authorsrc'][$perm]);
             $container->getDefinition('n1c0_quote.acl.housepublishing.roles')->replaceArgument($index, $config['acl_roles']['housepublishing'][$perm]);
             $container->getDefinition('n1c0_quote.acl.tag.roles')->replaceArgument($index, $config['acl_roles']['tag'][$perm]);
+            $container->getDefinition('n1c0_quote.acl.book.roles')->replaceArgument($index, $config['acl_roles']['book'][$perm]);
         }
 
         $container->setAlias('n1c0_quote.acl.quote', $config['service']['acl']['quote']);
         $container->setAlias('n1c0_quote.acl.authorsrc', $config['service']['acl']['authorsrc']);
         $container->setAlias('n1c0_quote.acl.housepublishing', $config['service']['acl']['housepublishing']);
         $container->setAlias('n1c0_quote.acl.tag', $config['service']['acl']['tag']);
+        $container->setAlias('n1c0_quote.acl.book', $config['service']['acl']['book']);
     }
 }

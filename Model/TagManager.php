@@ -6,7 +6,7 @@ use N1c0\QuoteBundle\Events;
 use N1c0\QuoteBundle\Event\TagEvent;
 use N1c0\QuoteBundle\Event\TagPersistEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use InvalidTagException;
+use InvalidArgumentException;
 
 /**
  * Abstract Tag Manager implementation which can be used as base class for your
@@ -80,7 +80,7 @@ abstract class TagManager implements TagManagerInterface
     public function saveTag(TagInterface $tag)
     {
         if (null === $tag->getQuote()) {
-            throw new InvalidTagException('The tag must have a quote');
+            throw new InvalidArgumentException('The tag must have a quote');
         }
 
         $event = new TagPersistEvent($tag);

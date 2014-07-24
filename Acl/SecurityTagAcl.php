@@ -1,9 +1,9 @@
 <?php
 
-namespace N1c0\DissertationBundle\Acl;
+namespace N1c0\QuoteBundle\Acl;
 
-use N1c0\DissertationBundle\Model\TagInterface;
-use N1c0\DissertationBundle\Model\SignedTagInterface;
+use N1c0\QuoteBundle\Model\TagInterface;
+use N1c0\QuoteBundle\Model\SignedTagInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;

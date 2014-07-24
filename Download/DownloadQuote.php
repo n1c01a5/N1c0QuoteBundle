@@ -23,12 +23,11 @@ class DownloadQuote
         $raw .= "\r\n";
         $raw .= '%'; 
 
-        foreach($quote->getAuthors() as $author) {
+        foreach($quote->getAuthorsrcs() as $author) {
             $raw .= $author.' ;';
         }
-
         $raw .= "\r\n";
-        $raw .= '%'.$quote->getCreatedAt()->format("m M Y");      
+        $raw .= '%'.$quote->getDate()->format("m M Y");  
         $raw .= "\r\n";
         $raw .= $quote->getBody();
 
@@ -36,7 +35,6 @@ class DownloadQuote
             "latex-engine" => "xelatex",
             "from"         => "markdown",
             "to"           => $format,
-            "toc"          => null
         );
 
         return $pandoc->runWith($raw, $options);

@@ -1,9 +1,9 @@
 <?php
 
-namespace N1c0\DissertationBundle\Acl;
+namespace N1c0\QuoteBundle\Acl;
 
-use N1c0\DissertationBundle\Model\TagInterface;
-use N1c0\DissertationBundle\Model\TagManagerInterface;
+use N1c0\QuoteBundle\Model\TagInterface;
+use N1c0\QuoteBundle\Model\TagManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**

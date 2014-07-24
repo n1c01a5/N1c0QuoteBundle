@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Acl;
+namespace N1c0\QuoteBundle\Acl;
 
 use N1c0\TagBundle\Model\TagInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;

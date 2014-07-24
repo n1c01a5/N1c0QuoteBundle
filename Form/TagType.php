@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\DissertationBundle\Form;
+namespace N1c0\QuoteBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,9 +23,6 @@ class TagType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('body')
-            ->add('commitTitle')
-            ->add('commitBody')
         ;
     }
     
@@ -46,6 +43,6 @@ class TagType extends AbstractType
      */
     public function getName()
     {
-        return 'n1c0_dissertation_tag';
+        return 'n1c0_quote_tag';
     }
 }
