@@ -6,11 +6,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AuthorsrcType extends AbstractType
+class HousepublishingType extends AbstractType
 {
-    private $housepublishing;
+    private $housepublishingClass;
 
-    public function __construct($housepublishing)
+    public function __construct($housepublishingClass)
     {
         $this->housepublishingClass = $housepublishingClass;
     }
@@ -23,9 +23,6 @@ class AuthorsrcType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('body')
-            ->add('commitTitle')
-            ->add('commitBody')
         ;
     }
     

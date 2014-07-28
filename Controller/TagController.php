@@ -5,6 +5,7 @@ namespace N1c0\QuoteBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
@@ -205,11 +206,10 @@ class TagController extends FOSRestController
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $tagManager->saveTag($tag);
+                    $tagManager->saveTag($quote, $tag);
                 
                     $routeOptions = array(
                         'id'      => $id,
-                        'tagId'   => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -220,10 +220,11 @@ class TagController extends FOSRestController
 
                     if($isAjax == false) { 
                         // Add a method onCreateTagSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_quote_tag', $routeOptions, Codes::HTTP_CREATED);
+                        return $this->routeRedirectView('api_1_get_quote', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
+                    $response['form'] = $form->getErrorsAsString();
                 }
                 return new JsonResponse( $response );
             }
@@ -274,7 +275,7 @@ class TagController extends FOSRestController
 
             if ($form->isValid()) {
                 $tagManager = $this->container->get('n1c0_quote.manager.tag');
-                if ($tagManager->saveTag($tag) !== false) {
+                if ($tagManager->saveTag($quote, $tag) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')
@@ -329,7 +330,7 @@ class TagController extends FOSRestController
 
             if ($form->isValid()) {
                 $tagManager = $this->container->get('n1c0_quote.manager.tag');
-                if ($tagManager->saveTag($tag) !== false) {
+                if ($tagManager->saveTag($quote, $tag) !== false) {
                     $routeOptions = array(
                         'id' => $quote->getId(),                  
                         '_format' => $request->get('_format')

@@ -61,7 +61,7 @@ abstract class TagManager implements TagManagerInterface
         $class = $this->getClass();
         $tag = new $class;
 
-        $tag->setQuote($quote);
+        $tag->addQuote($quote);
 
         $event = new TagEvent($tag);
         $this->dispatcher->dispatch(Events::TAG_CREATE, $event);
@@ -74,12 +74,13 @@ abstract class TagManager implements TagManagerInterface
      * must implement the abstract doSaveTag method which will
      * perform the saving of the tag to the backend.
      *
+     * @param  QuoteInterface         $quote
      * @param  TagInterface         $tag
      * @throws InvalidTagException when the tag does not have a quote.
      */
-    public function saveTag(TagInterface $tag)
+    public function saveTag(QuoteInterface $quote, TagInterface $tag)
     {
-        if (null === $tag->getQuote()) {
+        if (null === $tag->getQuotes()) {
             throw new InvalidArgumentException('The tag must have a quote');
         }
 
@@ -90,7 +91,7 @@ abstract class TagManager implements TagManagerInterface
             return false;
         }
 
-        $this->doSaveTag($tag);
+        $this->doSaveTag($quote, $tag);
 
         $event = new TagEvent($tag);
         $this->dispatcher->dispatch(Events::TAG_POST_PERSIST, $event);
@@ -102,7 +103,8 @@ abstract class TagManager implements TagManagerInterface
      * Performs the persistence of a tag.
      *
      * @abstract
+     * @param QuoteInterface $quote
      * @param TagInterface $tag
      */
-    abstract protected function doSaveTag(TagInterface $tag);
+    abstract protected function doSaveTag(QuoteInterface $quote, TagInterface $tag);
 }

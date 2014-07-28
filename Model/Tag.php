@@ -26,7 +26,7 @@ abstract class Tag implements TagInterface
      *
      * @var QuoteInterface
      */
-    protected $quote;
+    protected $quotes;
 
     /**
      * @return mixed
@@ -57,9 +57,9 @@ abstract class Tag implements TagInterface
     /**
      * @return QuoteInterface
      */
-    public function getQuote()
+    public function getQuotes()
     {
-        return $this->quote;
+        return $this->quotes;
     }
 
     /**
@@ -67,9 +67,9 @@ abstract class Tag implements TagInterface
      *
      * @return void
      */
-    public function setQuote(QuoteInterface $quote)
+    public function addQuotes(QuoteInterface $quote)
     {
-        $this->quote = $quote;
+        $this->quotes[] = $quote;
     }
 
     /**

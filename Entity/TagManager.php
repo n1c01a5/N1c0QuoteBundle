@@ -93,12 +93,26 @@ class TagManager extends BaseTagManager
      * Performs persisting of the tag. 
      *
      * @param QuoteInterface $quote
+     * @param TagInterface $tag
      */
-    protected function doSaveTag(TagInterface $tag)
+    protected function doSaveTag(QuoteInterface $quote, TagInterface $tag)
     {
-        $tag->addQuote($tag->getQuote());
-        //$this->em->persist($tag->getQuote());
-        $this->em->persist($tag);
+        $persistTag = true;
+
+        $tags = $this->findAllTags();
+        foreach($tags as $tagbdd) {
+            if($tagbdd->getTitle() == $tag->getTitle()) {
+                $quote->addTag($tagbdd);
+                $this->em->persist($tagbdd);
+                $this->em->persist($quote);
+                $persistTag = false;
+            }
+        }
+
+       if($persistTag) {
+            $this->em->persist($tag);
+       }
+
         $this->em->flush();
     }
 
