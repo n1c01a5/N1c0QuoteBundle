@@ -2,33 +2,33 @@
 
 namespace N1c0\QuoteBundle\Event;
 
-use N1c0\QuoteBundle\Model\HousePusblishingInterface;
+use N1c0\QuoteBundle\Model\HousepublishingInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * An event that occurs related to a housePusblishing.
+ * An event that occurs related to a housepublishing.
  */
-class HousePusblishingEvent extends Event
+class HousepublishingEvent extends Event
 {
-    private $housePusblishing;
+    private $housepublishing;
 
     /**
      * Constructs an event.
      *
-     * @param \n1c0\QuoteBundle\Model\HousePusblishingInterface $housePusblishing
+     * @param \n1c0\QuoteBundle\Model\HousepublihingInterface $housepublishing
      */
-    public function __construct(HousePusblishingInterface $housePusblishing)
+    public function __construct(HousepublishingInterface $housepublishing)
     {
-        $this->housePusblishing = $housePusblishing;
+        $this->housepublishing = $housepublishing;
     }
 
     /**
-     * Returns the housePusblishing for this event.
+     * Returns the housepublihing for this event.
      *
-     * @return \n1c0\QuoteBundle\Model\HousePusblishingInterface
+     * @return \n1c0\QuoteBundle\Model\HousepublishingInterface
      */
-    public function getHousePusblishing()
+    public function getHousepublishing()
     {
-        return $this->housePusblishing;
+        return $this->housepublishing;
     }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 /**
  * TagForm factory class.
  */
-class HousepublishingFormFactory implements HousepublisingFormFactoryInterface
+class HousepublishingFormFactory implements HousepublishingFormFactoryInterface
 {
     /**
      * @var FormFactoryInterface

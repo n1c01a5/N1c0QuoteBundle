@@ -1,0 +1,11 @@
+<h1 class="title">{{ 'housepublishing.list'|trans({}, 'n1c0HousepublishingBundle') }}</h1>
+<ul id="housepublishing-list">
+{% for housepublishing in housepublishings %}
+    <li>
+        <a href="{{ path('api_1_get_housepublishing', {'id': housepublishing.id}) }}">{{ housepublishing.title }}</a>
+        {#[<a href="{{ path('api_1_edit_housepublishings', {'id': housepublishing.id}) }}">{{ 'housepublishing.edit.link'|trans({}, 'n1c0HousepublishingBundle') }}</a>]#}
+        {#[<a href="{{ path('api_1_remove_housepublishings', {'id': housepublishing.id}) }}">{{ 'housepublishing.remove.link'|trans({}, 'n1c0HousepublishingBundle') }}</a>]#}
+    </li>
+{% endfor %}
+</ul>
+<p><a href="{{ path('api_1_new_housepublishing') }}">{{ 'housepublishing.new.link'|trans({}, 'n1c0HousepublishingBundle') }}</a></p>

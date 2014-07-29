@@ -6,7 +6,7 @@ namespace N1c0\QuoteBundle\Event;
  * An event related to a persisting event that can be
  * cancelled by a listener.
  */
-class HousePusblishingPersistEvent extends HousePusblishingEvent
+class HousepublishingPersistEvent extends HousepublishingEvent
 {
     /**
      * @var bool
