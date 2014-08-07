@@ -31,13 +31,20 @@ abstract class Quote implements QuoteInterface
      */
     protected $body;
 
+
+    /**
+     * Definition
+     *
+     * @var boolean
+     */
+    protected $definition;
+
     /**
      * CreatedAt
      *
-     * @var date
+     * @var datetime
      */
     protected $createdAt;
-
 
     /**
      * Current state of the quote.
@@ -94,6 +101,24 @@ abstract class Quote implements QuoteInterface
     {
         $this->title = $title;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getDefinition()
+    {
+        return $this->definition;
+    }
+
+    /**
+     * @param  boolean
+     * @return null
+     */
+    public function setDefinition($definition)
+    {
+        $this->definition = $definition;
+    }
+
 
     /**
      * @return date

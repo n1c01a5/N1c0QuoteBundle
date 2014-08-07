@@ -96,7 +96,6 @@ class AuthorsrcManager extends BaseAuthorsrcManager
      */
     protected function doSaveAuthorsrc(AuthorsrcInterface $authorsrc)
     {
-        $authorsrc->addQuote($authorsrc->getQuote());
         $authorsrc->getQuote()->setAuthorsrc($authorsrc);
         $this->em->persist($authorsrc->getQuote());
         $this->em->persist($authorsrc);

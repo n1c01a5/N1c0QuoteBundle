@@ -27,9 +27,3 @@ n1c0_quote_book:
     parent: n1c0_quote_quote
     resource: N1c0\QuoteBundle\Controller\BookController
     name_prefix:  api_1_ # naming collision
-
-n1c0_quote_quote_logs:
-    type: rest
-    parent: n1c0_quote_quote
-    resource: N1c0\QuoteBundle\Controller\LogQuoteController
-    name_prefix:  api_1_ # naming coll
