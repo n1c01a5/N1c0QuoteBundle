@@ -10,13 +10,13 @@
 
         <field name="name" column="name" type="string" />
 
-        <field name="firstname" column="firstname" type="string" />
+        <field name="firstname" column="firstname" type="string" nullable="true" />
         
-        <field name="birthday" column="birthday" type="datetime" />
+        <field name="birthday" column="birthday" type="datetime" nullable="true" />
         
-        <field name="website" column="website" type="string" />
+        <field name="website" column="website" type="string" nullable="true" />
 
-        <field name="bio" column="bio" type="text">
+        <field name="bio" column="bio" type="text" nullable="true">
             <gedmo:versioned/>
         </field>
 

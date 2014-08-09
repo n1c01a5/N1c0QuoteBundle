@@ -21,13 +21,10 @@ class DownloadQuote
 
         $raw = '%'.$quote->getTitle(); 
         $raw .= "\r\n";
-        $raw .= '%'; 
+        $raw .= '%'.$quote->getAuthorsrc(); 
 
-        foreach($quote->getAuthorsrcs() as $author) {
-            $raw .= $author.' ;';
-        }
         $raw .= "\r\n";
-        $raw .= '%'.$quote->getDate()->format("m M Y");  
+        $raw .= '%'.$quote->getCreatedAt()->format("m M Y");  
         $raw .= "\r\n";
         $raw .= $quote->getBody();
 
