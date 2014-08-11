@@ -48,24 +48,14 @@ class AuthorsrcManager extends BaseAuthorsrcManager
     }
 
     /**
-     * Returns a flat array of authorsrcs of a specific quote.
+     * Returns a flat array of authorsrc of a specific quote.
      *
      * @param  QuoteInterface $quote
      * @return array           of QuoteInterface
      */
-    public function findAuthorsrcsByQuote(QuoteInterface $quote)
+    public function findAuthorsrcByQuote(QuoteInterface $quote)
     {
-        $qb = $this->repository
-                ->createQueryBuilder('i')
-                ->join('i.quote', 'd')
-                ->where('d.id = :quote')
-                ->setParameter('quote', $quote->getId());
-
-        $authorsrcs = $qb
-            ->getQuery()
-            ->execute();
-
-        return $authorsrcs;
+        return $quote->getAuthorsrc();
     }
 
     /**
@@ -96,8 +86,6 @@ class AuthorsrcManager extends BaseAuthorsrcManager
      */
     protected function doSaveAuthorsrc(AuthorsrcInterface $authorsrc)
     {
-        $authorsrc->getQuote()->setAuthorsrc($authorsrc);
-        $this->em->persist($authorsrc->getQuote());
         $this->em->persist($authorsrc);
         $this->em->flush();
     }

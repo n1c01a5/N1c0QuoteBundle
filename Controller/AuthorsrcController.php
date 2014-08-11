@@ -70,7 +70,7 @@ class AuthorsrcController extends FOSRestController
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many authorsrcs to return.")
      *
      * @Annotations\View(
-     *  templateVar="authorsrcs"
+     *  templateVar="authorsrc"
      * )
      *
      * @param int                   $id           the quote id
@@ -84,7 +84,7 @@ class AuthorsrcController extends FOSRestController
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_quote.manager.authorsrc')->findAuthorsrcsByQuote($quote);
+        return $quote->getAuthorsrc();
     }
 
     /**

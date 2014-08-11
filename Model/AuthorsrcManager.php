@@ -79,10 +79,6 @@ abstract class AuthorsrcManager implements AuthorsrcManagerInterface
      */
     public function saveAuthorsrc(AuthorsrcInterface $authorsrc)
     {
-        if (null === $authorsrc->getQuote()) {
-            throw new InvalidAuthorsrcException('The authorsrc must have a quote');
-        }
-
         $event = new AuthorsrcPersistEvent($authorsrc);
         $this->dispatcher->dispatch(Events::AUTHORSRC_PRE_PERSIST, $event);
 

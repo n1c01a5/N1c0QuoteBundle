@@ -27,12 +27,12 @@ interface AuthorsrcManagerInterface
     public function findAuthorsrcById($id);
 
     /**
-     * Returns a flat array of authorsrcs with the specified quote.
+     * Returns a flat array of authorsrc with the specified quote.
      *
      * @param  QuoteInterface $quote
      * @return array           of AuthorsrcInterface
      */
-    public function findAuthorsrcsByQuote(QuoteInterface $quote);
+    public function findAuthorsrcByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty authorsrc instance
