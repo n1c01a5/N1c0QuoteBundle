@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-class TagMarkupListener implements EventSubscriberInterface
+class HousepublishingMarkupListener implements EventSubscriberInterface
 {
     /**
      * @var ParserInterface
