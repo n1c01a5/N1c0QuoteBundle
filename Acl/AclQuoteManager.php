@@ -55,6 +55,20 @@ class AclQuoteManager implements QuoteManagerInterface
     /**
      * {@inheritDoc}
      */
+    public function by(array $criteria, $limit = 5, $offset = 0)
+    {
+        $quotes = $this->realManager->by($criteria);
+
+        if (!$this->authorizeViewQuote($quotes)) {
+            throw new AccessDeniedException();
+        }
+
+        return $quotes;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function findQuoteBy(array $criteria){
     }
 

@@ -60,9 +60,9 @@ class QuoteManager extends BaseQuoteManager
     /**
      * {@inheritDoc}
      */
-    public function findQuotesBy(array $criteria)
+    public function findQuotesBy(array $criteria, $limit = 5,  $offset = 0)
     {
-        return $this->repository->findBy($criteria);
+        return $this->repository->findBy(array('bodsy'=>'lmk'), null );
     }
 
     /**

@@ -42,6 +42,19 @@ abstract class QuoteManager implements QuoteManagerInterface
     }
 
     /**
+     * Get a list of Quotes.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function by(array $criteria, $limit = 5, $offset = 0)
+    {
+        return $this->repository->findBy($criteria, null, $limit, $offset);
+    }
+
+    /**
      * @param  string          $id
      * @return QuoteInterface
      */

@@ -33,6 +33,7 @@ class QuoteController extends FOSRestController
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing quotes.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="100", description="How many quotes to return.")
+     * @Annotations\QueryParam(name="definition", requirements="\d", default="1", description="Is it a definition?")
      *
      * @Annotations\View(
      *  templateVar="quotes"
@@ -48,8 +49,10 @@ class QuoteController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
+        
+        $criteria = $paramFetcher->get('definition');
 
-        return $this->container->get('n1c0_quote.manager.quote')->all($limit, $offset);
+        return $this->container->get('n1c0_quote.manager.quote')->by(array('definition' => $criteria), $limit, $offset);
     }
 
     /**
