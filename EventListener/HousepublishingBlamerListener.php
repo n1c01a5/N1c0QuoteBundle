@@ -3,8 +3,8 @@
 namespace N1c0\QuoteBundle\EventListener;
 
 use N1c0\QuoteBundle\Events;
-use N1c0\QuoteBundle\Event\TagEvent;
-use N1c0\QuoteBundle\Model\SignedTagInterface;
+use N1c0\QuoteBundle\Event\HousepublishingEvent;
+use N1c0\QuoteBundle\Model\SignedHousepublishingInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Blames a housepublishing using Symfony2 security component
  */
-class TagBlamerListener implements EventSubscriberInterface
+class HousepublishingBlamerListener implements EventSubscriberInterface
 {
     /**
      * @var SecurityContext
@@ -37,26 +37,26 @@ class TagBlamerListener implements EventSubscriberInterface
     }
 
     /**
-     * Assigns the currently logged in user to a Tag.
+     * Assigns the currently logged in user to a Housepublishing.
      *
-     * @param  \N1c0\QuoteBundle\Event\TagEvent $event
+     * @param  \N1c0\QuoteBundle\Event\HousepublishingEvent $event
      * @return void
      */
-    public function blame(TagEvent $event)
+    public function blame(HousepublishingEvent $event)
     {
-        $housepublishing = $event->getTag();
+        $housepublishing = $event->getHousepublishing();
 
         if (null === $this->securityContext) {
             if ($this->logger) {
-                $this->logger->debug("Tag Blamer did not receive the security.context service.");
+                $this->logger->debug("Housepublishing Blamer did not receive the security.context service.");
             }
 
             return;
         }
 
-        if (!$housepublishing instanceof SignedTagInterface) {
+        if (!$housepublishing instanceof SignedHousepublishingInterface) {
             if ($this->logger) {
-                $this->logger->debug("Tag does not implement SignedTagInterface, skipping");
+                $this->logger->debug("Housepublishing does not implement SignedHousepublishingInterface, skipping");
             }
 
             return;

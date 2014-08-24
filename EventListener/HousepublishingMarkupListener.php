@@ -3,9 +3,9 @@
 namespace N1c0\QuoteBundle\EventListener;
 
 use N1c0\QuoteBundle\Events;
-use N1c0\QuoteBundle\Event\TagEvent;
+use N1c0\QuoteBundle\Event\HousepublishingEvent;
 use N1c0\QuoteBundle\Markup\ParserInterface;
-use N1c0\QuoteBundle\Model\RawTagInterface;
+use N1c0\QuoteBundle\Model\RawHousepublishingInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -35,13 +35,13 @@ class HousepublishingMarkupListener implements EventSubscriberInterface
      * Parses raw housepublishing data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\QuoteBundle\Event\TagEvent $event
+     * @param \N1c0\QuoteBundle\Event\HousepublishingEvent $event
      */
-    public function markup(TagEvent $event)
+    public function markup(HousepublishingEvent $event)
     {
-        $housepublishing = $event->getTag();
+        $housepublishing = $event->getHousepublishing();
 
-        if (!$housepublishing instanceof RawTagInterface) {
+        if (!$housepublishing instanceof RawHousepublishingInterface) {
             return;
         }
 
