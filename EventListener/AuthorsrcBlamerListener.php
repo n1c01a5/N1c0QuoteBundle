@@ -76,7 +76,6 @@ class AuthorsrcBlamerListener implements EventSubscriberInterface
             if (!$authorsrc->getAuthors()->contains($user)) {
                 $authorsrc->addAuthor($user);
             }
-            }
         }
     }
 
