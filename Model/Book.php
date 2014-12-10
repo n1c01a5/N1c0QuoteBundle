@@ -10,11 +10,25 @@ use DateTime;
 abstract class Book implements BookInterface
 {
     /**
-     *Book id 
+     *Book id
      *
      * @var mixed
      */
     protected $id;
+
+    /**
+     * Current state of the book.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the book.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
 
     /**
      * Title
@@ -29,7 +43,7 @@ abstract class Book implements BookInterface
      * @var string
      */
     protected $body;
-    
+
     /**
      * Should be mapped by the end developer.
      *
@@ -68,7 +82,7 @@ abstract class Book implements BookInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -187,6 +201,31 @@ abstract class Book implements BookInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+   /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     public function __toString()

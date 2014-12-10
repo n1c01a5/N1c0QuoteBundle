@@ -2,7 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
-use N1c0\BookBundle\Model\BookInterface;
+use N1c0\QuoteBundle\Model\BookInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**

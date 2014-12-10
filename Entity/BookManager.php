@@ -32,7 +32,7 @@ class BookManager extends BaseBookManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -90,7 +90,17 @@ class BookManager extends BaseBookManager
     }
 
     /**
-     * Performs persisting of the book. 
+     *
+     * {@inheritDoc}
+     *
+    */
+    public function isNewBook(BookInterface $book)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($book);
+    }
+
+    /**
+     * Performs persisting of the book.
      *
      * @param QuoteInterface $quote
      */

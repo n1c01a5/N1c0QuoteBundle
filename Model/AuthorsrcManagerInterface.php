@@ -32,7 +32,7 @@ interface AuthorsrcManagerInterface
      * @param  QuoteInterface $quote
      * @return array           of AuthorsrcInterface
      */
-    public function findAuthorsrcByQuote(QuoteInterface $quote);
+    //public function findAuthorsrcByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty authorsrc instance

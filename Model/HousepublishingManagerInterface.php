@@ -32,7 +32,7 @@ interface HousepublishingManagerInterface
      * @param  QuoteInterface $quote
      * @return array           of HousepublishingInterface
      */
-    public function findHousepublishingsByQuote(QuoteInterface $quote);
+    //public function findHousepublishingsByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty housepublishing instance

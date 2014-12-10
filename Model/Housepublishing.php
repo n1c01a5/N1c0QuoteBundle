@@ -10,11 +10,25 @@ use DateTime;
 abstract class Housepublishing implements HousepublishingInterface
 {
     /**
-     * Housepublishing id 
+     * Housepublishing id
      *
      * @var mixed
      */
     protected $id;
+
+    /**
+     * Current state of the housepublishing.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the housepublishing.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
 
     /**
      * Name
@@ -88,6 +102,31 @@ abstract class Housepublishing implements HousepublishingInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+   /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     public function __toString()

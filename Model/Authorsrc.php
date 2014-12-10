@@ -8,7 +8,7 @@ namespace N1c0\QuoteBundle\Model;
 abstract class Authorsrc implements AuthorsrcInterface
 {
     /**
-     * Authorsrc id 
+     * Authorsrc id
      *
      * @var mixed
      */
@@ -20,6 +20,20 @@ abstract class Authorsrc implements AuthorsrcInterface
      * @var string
      */
     protected $name;
+
+    /**
+     * Current state of the quote.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the quote.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
 
     /**
      * Firstname
@@ -181,6 +195,31 @@ abstract class Authorsrc implements AuthorsrcInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+   /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     public function __toString()

@@ -2,6 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
+use N1c0\QuoteBundle\Model\QuoteInterface;
 use N1c0\QuoteBundle\Model\HousepublishingInterface;
 use N1c0\QuoteBundle\Model\HousepublishingManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclHousepublishingManager implements HousepublishingManagerInterface
      * {@inheritDoc}
      */
     public function findAllHousepublishings(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclHousepublishingManager implements HousepublishingManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createHousepublishing($id = null)
+    public function createHousepublishing(QuoteInterface $quote)
     {
-        return $this->realManager->createHousepublishing($id);
+        return $this->realManager->createHousepublishing($quote);
     }
 
     /**

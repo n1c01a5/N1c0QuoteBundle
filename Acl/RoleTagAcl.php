@@ -2,7 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
-use N1c0\TagBundle\Model\TagInterface;
+use N1c0\QuoteBundle\Model\TagInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**

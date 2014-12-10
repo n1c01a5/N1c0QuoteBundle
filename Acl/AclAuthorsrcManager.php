@@ -2,6 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
+use N1c0\QuoteBundle\Model\QuoteInterface;
 use N1c0\QuoteBundle\Model\AuthorsrcInterface;
 use N1c0\QuoteBundle\Model\AuthorsrcManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclAuthorsrcManager implements AuthorsrcManagerInterface
      * {@inheritDoc}
      */
     public function findAllAuthorsrcs(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclAuthorsrcManager implements AuthorsrcManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createAuthorsrc($id = null)
+    public function createAuthorsrc(QuoteInterface $quote)
     {
-        return $this->realManager->createAuthorsrc($id);
+        return $this->realManager->createAuthorsrc($quote);
     }
 
     /**

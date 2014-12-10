@@ -32,7 +32,7 @@ interface BookManagerInterface
      * @param  QuoteInterface $quote
      * @return array           of BookInterface
      */
-    public function findBooksByQuote(QuoteInterface $quote);
+    //public function findBooksByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty book instance

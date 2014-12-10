@@ -32,7 +32,7 @@ interface TagManagerInterface
      * @param  QuoteInterface $quote
      * @return array           of TagInterface
      */
-    public function findTagsByQuote(QuoteInterface $quote);
+    //public function findTagsByQuote(QuoteInterface $quote);
 
     /**
      * Returns an empty tag instance

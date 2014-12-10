@@ -32,7 +32,7 @@ class TagManager extends BaseTagManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -90,7 +90,17 @@ class TagManager extends BaseTagManager
     }
 
     /**
-     * Performs persisting of the tag. 
+     *
+     * {@inheritDoc}
+     *
+    */
+    public function isNewTag(TagInterface $tag)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($tag);
+    }
+
+    /**
+     * Performs persisting of the tag.
      *
      * @param QuoteInterface $quote
      * @param TagInterface $tag

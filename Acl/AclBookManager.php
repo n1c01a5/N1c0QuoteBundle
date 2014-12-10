@@ -2,6 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
+use N1c0\QuoteBundle\Model\QuoteInterface;
 use N1c0\QuoteBundle\Model\BookInterface;
 use N1c0\QuoteBundle\Model\BookManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclBookManager implements BookManagerInterface
      * {@inheritDoc}
      */
     public function findAllBooks(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclBookManager implements BookManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createBook($id = null)
+    public function createBook(QuoteInterface $quote)
     {
-        return $this->realManager->createBook($id);
+        return $this->realManager->createBook($quote);
     }
 
     /**

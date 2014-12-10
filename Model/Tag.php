@@ -8,11 +8,25 @@ namespace N1c0\QuoteBundle\Model;
 abstract class Tag implements TagInterface
 {
     /**
-     * Tag id 
+     * Tag id
      *
      * @var mixed
      */
     protected $id;
+
+    /**
+     * Current state of the tag.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the Tag.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
 
     /**
      * Title
@@ -86,6 +100,31 @@ abstract class Tag implements TagInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+   /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     public function __toString()

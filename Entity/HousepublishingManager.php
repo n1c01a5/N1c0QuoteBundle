@@ -32,7 +32,7 @@ class HousepublishingManager extends BaseHousepublishingManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -90,7 +90,17 @@ class HousepublishingManager extends BaseHousepublishingManager
     }
 
     /**
-     * Performs persisting of the housepublishing. 
+     *
+     * {@inheritDoc}
+     *
+    */
+    public function isNewHousepublishing(HousepublishingInterface $housepublishing)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($housepublishing);
+    }
+
+    /**
+     * Performs persisting of the housepublishing.
      *
      * @param QuoteInterface $quote
      */

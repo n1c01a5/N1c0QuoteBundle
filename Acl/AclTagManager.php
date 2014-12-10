@@ -2,6 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
+use N1c0\QuoteBundle\Model\QuoteInterface;
 use N1c0\QuoteBundle\Model\TagInterface;
 use N1c0\QuoteBundle\Model\TagManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclTagManager implements TagManagerInterface
      * {@inheritDoc}
      */
     public function findAllTags(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclTagManager implements TagManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createTag($id = null)
+    public function createTag(QuoteInterface $quote)
     {
-        return $this->realManager->createTag($id);
+        return $this->realManager->createTag($quote);
     }
 
     /**

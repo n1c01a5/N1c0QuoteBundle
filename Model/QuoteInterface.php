@@ -26,7 +26,7 @@ Interface QuoteInterface
      * @return array with the last author of the quote
      */
     public function getAuthorName();
-    
+
     /**
      * Set title
      *
@@ -38,7 +38,7 @@ Interface QuoteInterface
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle();
 
@@ -53,7 +53,7 @@ Interface QuoteInterface
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody();
 
@@ -68,9 +68,10 @@ Interface QuoteInterface
     /**
      * Get createdAT
      *
-     * @return date 
+     * @return date
      */
     public function getCreatedAt();
+
     /**
      * @return integer The current state of the comment
      */

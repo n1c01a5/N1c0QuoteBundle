@@ -2,7 +2,7 @@
 
 namespace N1c0\QuoteBundle\Acl;
 
-use N1c0\HousepublishingBundle\Model\HousepublishingInterface;
+use N1c0\QuoteBundle\Model\HousepublishingInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
