@@ -18,19 +18,17 @@ class DownloadQuote
         $pandoc = new Pandoc();
 
         $quote = $this->appQuote->findQuoteById($id);
+        
+        $title  = $quote->getTitle();
+        $author = $quote->getAuthorsrc();
+        $date   = $quote->getCreatedAt()->format("m M Y");
 
-        $raw = '%'.$quote->getTitle(); 
-        $raw .= "\r\n";
-        $raw .= '%'.$quote->getAuthorsrc(); 
-
-        $raw .= "\r\n";
-        $raw .= '%'.$quote->getCreatedAt()->format("m M Y");  
-        $raw .= "\r\n";
+        $raw = "Title: $title\nAuthor: $author\nDate: $date\n\n";
         $raw .= $quote->getBody();
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"         => "markdown",
+            "from"         => "markdown_mmd",
             "to"           => $format,
         );
 
