@@ -41,9 +41,9 @@ class AclQuoteManager implements QuoteManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $quotes = $this->realManager->all();
+        $quotes = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewQuote($quotes)) {
             throw new AccessDeniedException();
@@ -55,9 +55,9 @@ class AclQuoteManager implements QuoteManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function by(array $criteria, $limit = 5, $offset = 0)
+    public function by(array $criteria, $limit, $offset)
     {
-        $quotes = $this->realManager->by($criteria);
+        $quotes = $this->realManager->by($criteria, $limit, $offset);
 
         if (!$this->authorizeViewQuote($quotes)) {
             throw new AccessDeniedException();
@@ -82,7 +82,7 @@ class AclQuoteManager implements QuoteManagerInterface
      * {@inheritDoc}
      */
     public function findAllQuotes(){
-    }                 
+    }
 
 
     /**

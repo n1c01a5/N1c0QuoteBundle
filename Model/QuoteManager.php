@@ -36,7 +36,7 @@ abstract class QuoteManager implements QuoteManagerInterface
      *
      * @return array
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
         return $this->repository->findBy(array(), null, $limit, $offset);
     }
@@ -49,7 +49,7 @@ abstract class QuoteManager implements QuoteManagerInterface
      *
      * @return array
      */
-    public function by(array $criteria, $limit = 5, $offset = 0)
+    public function by(array $criteria, $limit, $offset)
     {
         return $this->repository->findBy($criteria, null, $limit, $offset);
     }

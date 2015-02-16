@@ -42,9 +42,9 @@ class AclBookManager implements BookManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $books = $this->realManager->all();
+        $books = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewBook($books)) {
             throw new AccessDeniedException();

@@ -42,9 +42,9 @@ class AclHousepublishingManager implements HousepublishingManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $housepublishings = $this->realManager->all();
+        $housepublishings = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewHousepublishing($housepublishings)) {
             throw new AccessDeniedException();

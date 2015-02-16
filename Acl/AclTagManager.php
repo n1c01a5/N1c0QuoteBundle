@@ -42,9 +42,9 @@ class AclTagManager implements TagManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $tags = $this->realManager->all();
+        $tags = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewTag($tags)) {
             throw new AccessDeniedException();

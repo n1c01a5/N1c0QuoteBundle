@@ -42,9 +42,9 @@ class AclAuthorsrcManager implements AuthorsrcManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $authorsrcs = $this->realManager->all();
+        $authorsrcs = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewAuthorsrc($authorsrcs)) {
             throw new AccessDeniedException();
