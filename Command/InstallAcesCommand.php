@@ -44,17 +44,27 @@ EOT
             return;
         }
 
-        $quoteAcl = $this->getContainer()->get('n1c0_quote.acl.quote');
+        $quoteAcl           = $this->getContainer()->get('n1c0_quote.acl.quote');
+        $authorsrcAcl       = $this->getContainer()->get('n1c0_quote.acl.authorsrc');
+        $housepublishingAcl = $this->getContainer()->get('n1c0_quote.acl.housepublishing');
+        $tagAcl             = $this->getContainer()->get('n1c0_quote.acl.tag');
+        $bookAcl            = $this->getContainer()->get('n1c0_quote.acl.book');
 
         if ($input->getOption('flush')) {
             $output->writeln('Flushing Global ACEs');
 
-            $threadAcl->uninstallFallbackAcl();
-            $commentAcl->uninstallFallbackAcl();
-            $voteAcl->uninstallFallbackAcl();
+            $quoteAcl->uninstallFallbackAcl();
+            $authorsrcAcl->uninstallFallbackAcl();
+            $housepublishingAcl->uninstallFallbackAcl();
+            $tagAcl->uninstallFallbackAcl();
+            $bookAcl->uninstallFallbackAcl();
         }
 
         $quoteAcl->installFallbackAcl();
+        $authorsrcAcl->installFallbackAcl();
+        $housepublishingAcl->installFallbackAcl();
+        $tagAcl->installFallbackAcl();
+        $bookAcl->installFallbackAcl();
 
         $output->writeln('Global ACEs have been installed.');
     }

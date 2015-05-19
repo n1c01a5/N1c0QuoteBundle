@@ -47,5 +47,5 @@ interface TagManagerInterface
      * @param  QuoteInterface         $quote
      * @param  TagInterface         $tag
      */
-    public function saveTag(QuoteInterface $quote, TagInterface $tag);
+    public function saveTag(TagInterface $tag);
 }

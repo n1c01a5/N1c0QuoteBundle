@@ -102,10 +102,9 @@ class TagManager extends BaseTagManager
     /**
      * Performs persisting of the tag.
      *
-     * @param QuoteInterface $quote
      * @param TagInterface $tag
      */
-    protected function doSaveTag(QuoteInterface $quote, TagInterface $tag)
+    protected function doSaveTag(TagInterface $tag)
     {
         $persistTag = true;
 
@@ -114,7 +113,7 @@ class TagManager extends BaseTagManager
             if($tagbdd->getTitle() == $tag->getTitle()) {
                 $quote->addTag($tagbdd);
                 $this->em->persist($tagbdd);
-                $this->em->persist($quote);
+                $this->em->persist($tag->getQuote());
                 $persistTag = false;
             }
         }

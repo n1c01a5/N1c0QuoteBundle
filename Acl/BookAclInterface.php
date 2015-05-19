@@ -26,15 +26,6 @@ interface BookAclInterface
     public function canView(BookInterface $book);
 
     /**
-     * Checks if the user can reply to the supplied 'parent' book
-     * or if not supplied, just the ability to reply.
-     *
-     * @param  BookInterface $book
-     * @return boolean
-     */
-    public function canReply(BookInterface $parent = null);
-
-    /**
      * Checks if the user should be able to edit a book.
      *
      * @param  BookInterface $book

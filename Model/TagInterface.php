@@ -5,8 +5,11 @@ namespace N1c0\QuoteBundle\Model;
 Interface TagInterface
 {
     const STATE_VISIBLE = 0;
+
     const STATE_DELETED = 1;
+
     const STATE_SPAM = 2;
+
     const STATE_PENDING = 3;
 
     /**
@@ -30,7 +33,7 @@ Interface TagInterface
     public function getTitle();
 
     /**
-     * @return integer The current state of the comment
+     * @return integer The current state of the tag
      */
     public function getState();
 

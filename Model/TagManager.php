@@ -78,7 +78,7 @@ abstract class TagManager implements TagManagerInterface
      * @param  TagInterface         $tag
      * @throws InvalidTagException when the tag does not have a quote.
      */
-    public function saveTag(QuoteInterface $quote, TagInterface $tag)
+    public function saveTag(TagInterface $tag)
     {
         if (null === $tag->getQuotes()) {
             throw new InvalidArgumentException('The tag must have a quote');
@@ -91,7 +91,7 @@ abstract class TagManager implements TagManagerInterface
             return false;
         }
 
-        $this->doSaveTag($quote, $tag);
+        $this->doSaveTag($tag);
 
         $event = new TagEvent($tag);
         $this->dispatcher->dispatch(Events::TAG_POST_PERSIST, $event);
@@ -106,5 +106,5 @@ abstract class TagManager implements TagManagerInterface
      * @param QuoteInterface $quote
      * @param TagInterface $tag
      */
-    abstract protected function doSaveTag(QuoteInterface $quote, TagInterface $tag);
+    abstract protected function doSaveTag(TagInterface $tag);
 }

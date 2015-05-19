@@ -53,7 +53,7 @@ class TagController extends FOSRestController
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($tagId);
     }
 
@@ -119,7 +119,7 @@ class TagController extends FOSRestController
         $form->setData($tag);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -133,7 +133,7 @@ class TagController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0QuoteBundle:Tag:editTag.html.twig",
      *  templateVar = "form"
@@ -154,7 +154,7 @@ class TagController extends FOSRestController
 
         $form = $this->container->get('n1c0_quote.form_factory.tag')->createForm();
         $form->setData($tag);
-    
+
         return array(
             'form'           => $form,
             'id'             => $id,
@@ -184,7 +184,7 @@ class TagController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the quote 
+     * @param string  $id      The id of the quote
      *
      * @return FormTypeInterface|View
      */
@@ -206,19 +206,19 @@ class TagController extends FOSRestController
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $tagManager->saveTag($quote, $tag);
-                
+                    $tagManager->saveTag($tag);
+
                     $routeOptions = array(
                         'id'      => $id,
                         '_format' => $request->get('_format')
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateTagSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_quote', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -252,7 +252,7 @@ class TagController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $tagId      the tag id
      *
      * @return FormTypeInterface|View
@@ -277,7 +277,7 @@ class TagController extends FOSRestController
                 $tagManager = $this->container->get('n1c0_quote.manager.tag');
                 if ($tagManager->saveTag($quote, $tag) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -307,7 +307,7 @@ class TagController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $tagId      the tag id
 
      * @return FormTypeInterface|View
@@ -332,7 +332,7 @@ class TagController extends FOSRestController
                 $tagManager = $this->container->get('n1c0_quote.manager.tag');
                 if ($tagManager->saveTag($quote, $tag) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -341,7 +341,7 @@ class TagController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -445,7 +445,7 @@ class TagController extends FOSRestController
         );
 
         return array(
-            'formats'        => $formats, 
+            'formats'        => $formats,
             'id'             => $id,
             'tagId' => $tagId
         );
@@ -464,7 +464,7 @@ class TagController extends FOSRestController
      *
      * @param int     $id                  the quote uuid
      * @param int     $tagId      the tag uuid
-     * @param string  $format              the format to convert quote 
+     * @param string  $format              the format to convert quote
      *
      * @return Response
      * @throws NotFoundHttpException when quote not exist
@@ -528,11 +528,11 @@ class TagController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-   
+
         $response->headers->set('Content-disposition', 'filename='.$tag->getTitle().'.'.$ext);
-         
+
         return $response;
     }
 

@@ -49,7 +49,7 @@ class QuoteController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
-        
+
         $criteria = $paramFetcher->get('definition');
 
         return $this->container->get('n1c0_quote.manager.quote')->by(array('definition' => $criteria), $limit, $offset);
@@ -113,7 +113,7 @@ class QuoteController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0QuoteBundle:Quote:editQuote.html.twig",
      *  templateVar = "form"
@@ -127,9 +127,9 @@ class QuoteController extends FOSRestController
         $quote = $this->getOr404($id);
         $form = $this->container->get('n1c0_quote.form_factory.quote')->createForm();
         $form->setData($quote);
-    
+
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id'=>$id
         );
     }
@@ -171,7 +171,7 @@ class QuoteController extends FOSRestController
 
                 if ($form->isValid()) {
                     $quoteManager->saveQuote($quote);
-                
+
                     $routeOptions = array(
                         'id' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
@@ -409,7 +409,7 @@ class QuoteController extends FOSRestController
      * )
      *
      * @param int     $id      the quote uuid
-     * @param string  $format  the format to convert quote 
+     * @param string  $format  the format to convert quote
      *
      * @return Response
      * @throws NotFoundHttpException when quote not exist
@@ -469,13 +469,13 @@ class QuoteController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
-        }        
+                $ext = $format;
+        }
         $response->headers->set('Content-disposition', 'filename='.$quote->getTitle().'.'.$ext);
-         
+
         return $response;
     }
-    
+
     /**
      * Get logs of a single Quote.
      *
@@ -503,7 +503,7 @@ class QuoteController extends FOSRestController
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
         $entity = $em->find('Entity\Quote', $quote->getId());
         $logs = $repo->getLogEntries($entity);
-        
+
         return $logs;
     }
 }

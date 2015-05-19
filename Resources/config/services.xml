@@ -11,20 +11,28 @@
         <parameter key="n1c0_quote.model.housepublishing.class">N1c0\QuoteBundle\Entity\Housepublishing</parameter>
         <parameter key="n1c0_quote.model.tag.class">N1c0\QuoteBundle\Entity\Tag</parameter>
         <parameter key="n1c0_quote.model.book.class">N1c0\QuoteBundle\Entity\Book</parameter>
-        
+
         <parameter key="n1c0_quote.manager.quote.default.class">N1c0\QuoteBundle\Entity\QuoteManager</parameter>
         <parameter key="n1c0_quote.manager.authorsrc.default.class">N1c0\QuoteBundle\Entity\AuthorsrcManager</parameter>
         <parameter key="n1c0_quote.manager.housepublishing.default.class">N1c0\QuoteBundle\Entity\HousepublishingManager</parameter>
         <parameter key="n1c0_quote.manager.tag.default.class">N1c0\QuoteBundle\Entity\TagManager</parameter>
         <parameter key="n1c0_quote.manager.book.default.class">N1c0\QuoteBundle\Entity\BookManager</parameter>
+
         <parameter key="n1c0_quote.listener.quote_blamer.class">N1c0\QuoteBundle\EventListener\QuoteBlamerListener</parameter>
+        <parameter key="n1c0_quote.listener.authorsrc_blamer.class">N1c0\QuoteBundle\EventListener\AuthorsrcBlamerListener</parameter>
+        <parameter key="n1c0_quote.listener.housepublishing_blamer.class">N1c0\QuoteBundle\EventListener\HousepublishingBlamerListener</parameter>
+        <parameter key="n1c0_quote.listener.tag_blamer.class">N1c0\QuoteBundle\EventListener\TagBlamerListener</parameter>
+        <parameter key="n1c0_quote.listener.book_blamer.class">N1c0\QuoteBundle\EventListener\BookBlamerListener</parameter>
+
         <parameter key="n1c0_quote.comment.quote_comment.class">N1c0\QuoteBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
+
         <parameter key="n1c0_quote.manager.quote.acl.class">N1c0\QuoteBundle\Acl\AclQuoteManager</parameter>
         <parameter key="n1c0_quote.manager.authorsrc.acl.class">N1c0\QuoteBundle\Acl\AclAuthorsrcManager</parameter>
         <parameter key="n1c0_quote.manager.housepublishing.acl.class">N1c0\QuoteBundle\Acl\AclHousepublishingManager</parameter>
         <parameter key="n1c0_quote.manager.tag.acl.class">N1c0\QuoteBundle\Acl\AclTagManager</parameter>
         <parameter key="n1c0_quote.manager.book.acl.class">N1c0\QuoteBundle\Acl\AclBookManager</parameter>
+
         <parameter key="n1c0_quote.download.quote.class">N1c0\QuoteBundle\Download\DownloadQuote</parameter>
     </parameters>
 
@@ -32,7 +40,7 @@
         <service id="n1c0_quote.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
             <argument>%n1c0_quote.model_manager_name%</argument>
         </service>
-    
+
         <service id="n1c0_quote.manager.quote.default" class="%n1c0_quote.manager.quote.default.class%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="n1c0_quote.entity_manager" />
@@ -121,6 +129,31 @@
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="kernel.event_subscriber" />
         </service>
+
+        <service id="n1c0_quote.listener.authorsrc_blamer" class="%n1c0_quote.listener.authorsrc_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="n1c0_quote.listener.housepublishing_blamer" class="%n1c0_quote.listener.housepublishing_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="n1c0_quote.listener.tag_blamer" class="%n1c0_quote.listener.tag_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="n1c0_quote.listener.book_blamer" class="%n1c0_quote.listener.book_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
 
         <service id="n1c0_quote.comment.quote_comment.default" class="%n1c0_quote.comment.quote_comment.class%">
             <argument type="service" id="request_stack" />
