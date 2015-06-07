@@ -393,7 +393,7 @@ class QuoteController extends FOSRestController
 
         return array(
             'formats' => $formats,
-            'id' => $id
+            'id'      => $id
         );
     }
 
@@ -411,7 +411,7 @@ class QuoteController extends FOSRestController
      * @param int     $id      the quote uuid
      * @param string  $format  the format to convert quote
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when quote not exist
      */
     public function getQuoteConvertAction($id, $format)
@@ -422,9 +422,6 @@ class QuoteController extends FOSRestController
 
         $quoteConvert = $this->container->get('n1c0_quote.quote.download')->getConvert($id, $format);
 
-        $response = new Response();
-        $response->setContent($quoteConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -471,10 +468,17 @@ class QuoteController extends FOSRestController
             default:
                 $ext = $format;
         }
-        $response->headers->set('Content-disposition', 'filename='.$quote->getTitle().'.'.$ext);
 
-        return $response;
+        if ($ext == "") {$ext = "txt";}
+        $filename = $quote->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false)
+            die("Oops! Unable to create file");
+        fputs($fh, $quoteConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
+
 
     /**
      * Get logs of a single Quote.

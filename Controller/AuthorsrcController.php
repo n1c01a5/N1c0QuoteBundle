@@ -52,7 +52,7 @@ class AuthorsrcController extends FOSRestController
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($authorsrcId);
     }
 
@@ -118,7 +118,7 @@ class AuthorsrcController extends FOSRestController
         $form->setData($authorsrc);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -132,7 +132,7 @@ class AuthorsrcController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0QuoteBundle:Authorsrc:editAuthorsrc.html.twig",
      *  templateVar = "form"
@@ -153,7 +153,7 @@ class AuthorsrcController extends FOSRestController
 
         $form = $this->container->get('n1c0_quote.form_factory.authorsrc')->createForm();
         $form->setData($authorsrc);
-    
+
         return array(
             'form'           => $form,
             'id'             => $id,
@@ -183,7 +183,7 @@ class AuthorsrcController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the quote 
+     * @param string  $id      The id of the quote
      *
      * @return FormTypeInterface|View
      */
@@ -206,7 +206,7 @@ class AuthorsrcController extends FOSRestController
 
                 if ($form->isValid()) {
                     $authorsrcManager->saveAuthorsrc($authorsrc);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'authorsrcId' => $form->getData()->getId(),
@@ -214,11 +214,11 @@ class AuthorsrcController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateAuthorsrcSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_quote_authorsrc', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -251,7 +251,7 @@ class AuthorsrcController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $authorsrcId      the authorsrc id
      *
      * @return FormTypeInterface|View
@@ -276,7 +276,7 @@ class AuthorsrcController extends FOSRestController
                 $authorsrcManager = $this->container->get('n1c0_quote.manager.authorsrc');
                 if ($authorsrcManager->saveAuthorsrc($authorsrc) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -306,7 +306,7 @@ class AuthorsrcController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $authorsrcId      the authorsrc id
 
      * @return FormTypeInterface|View
@@ -331,7 +331,7 @@ class AuthorsrcController extends FOSRestController
                 $authorsrcManager = $this->container->get('n1c0_quote.manager.authorsrc');
                 if ($authorsrcManager->saveAuthorsrc($authorsrc) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -340,7 +340,7 @@ class AuthorsrcController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -444,7 +444,7 @@ class AuthorsrcController extends FOSRestController
         );
 
         return array(
-            'formats'        => $formats, 
+            'formats'        => $formats,
             'id'             => $id,
             'authorsrcId' => $authorsrcId
         );
@@ -463,9 +463,9 @@ class AuthorsrcController extends FOSRestController
      *
      * @param int     $id                  the quote uuid
      * @param int     $authorsrcId      the authorsrc uuid
-     * @param string  $format              the format to convert quote 
+     * @param string  $format              the format to convert quote
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when quote not exist
      */
     public function getAuthorsrcConvertAction($id, $authorsrcId, $format)
@@ -480,9 +480,6 @@ class AuthorsrcController extends FOSRestController
 
         $authorsrcConvert = $this->container->get('n1c0_quote.authorsrc.download')->getConvert($authorsrcId, $format);
 
-        $response = new Response();
-        $response->setContent($authorsrcConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -527,12 +524,17 @@ class AuthorsrcController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-   
-        $response->headers->set('Content-disposition', 'filename='.$authorsrc->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $authorsrc->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false)
+            die("Oops! Unable to create file");
+        fputs($fh, $authorsrcConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }

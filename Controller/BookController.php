@@ -52,7 +52,7 @@ class BookController extends FOSRestController
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($bookId);
     }
 
@@ -118,7 +118,7 @@ class BookController extends FOSRestController
         $form->setData($book);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -132,7 +132,7 @@ class BookController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0QuoteBundle:Book:editBook.html.twig",
      *  templateVar = "form"
@@ -152,7 +152,7 @@ class BookController extends FOSRestController
         $book = $this->getOr404($bookId);
         $form = $this->container->get('n1c0_quote.form_factory.book')->createForm();
         $form->setData($book);
-    
+
         return array(
             'form'         => $form,
             'id'           =>$id,
@@ -181,7 +181,7 @@ class BookController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the quote 
+     * @param string  $id      The id of the quote
      *
      * @return FormTypeInterface|View
      */
@@ -204,7 +204,7 @@ class BookController extends FOSRestController
 
                 if ($form->isValid()) {
                     $bookManager->saveBook($book);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'bookId' => $form->getData()->getId(),
@@ -212,11 +212,11 @@ class BookController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateBookSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_quote_book', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -249,7 +249,7 @@ class BookController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $bookId      the book id
      *
      * @return FormTypeInterface|View
@@ -274,7 +274,7 @@ class BookController extends FOSRestController
                 $bookManager = $this->container->get('n1c0_quote.manager.book');
                 if ($bookManager->saveBook($book) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -307,7 +307,7 @@ class BookController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $bookId      the book id
 
      * @return FormTypeInterface|View
@@ -332,7 +332,7 @@ class BookController extends FOSRestController
                 $bookManager = $this->container->get('n1c0_quote.manager.book');
                 if ($bookManager->saveBook($book) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -341,7 +341,7 @@ class BookController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -445,7 +445,7 @@ class BookController extends FOSRestController
         );
 
         return array(
-            'formats'    => $formats, 
+            'formats'    => $formats,
             'book'   => $book
         );
     }
@@ -463,9 +463,9 @@ class BookController extends FOSRestController
      *
      * @param int     $id              the quote uuid
      * @param int     $bookId      the book uuid
-     * @param string  $format          the format to convert quote 
+     * @param string  $format          the format to convert quote
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when quote not exist
      * @throws NotFoundHttpException when book not exist
      */
@@ -481,9 +481,6 @@ class BookController extends FOSRestController
 
         $bookConvert = $this->container->get('n1c0_quote.book.download')->getConvert($bookId, $format);
 
-        $response = new Response();
-        $response->setContent($bookConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -528,12 +525,17 @@ class BookController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-        
-        $response->headers->set('Content-disposition', 'filename='.$book->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $book->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false)
+            die("Oops! Unable to create file");
+        fputs($fh, $bookConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }

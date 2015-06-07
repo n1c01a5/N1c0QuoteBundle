@@ -447,7 +447,7 @@ class TagController extends FOSRestController
         return array(
             'formats'        => $formats,
             'id'             => $id,
-            'tagId' => $tagId
+            'tagId'          => $tagId
         );
     }
 
@@ -481,9 +481,6 @@ class TagController extends FOSRestController
 
         $tagConvert = $this->container->get('n1c0_quote.tag.download')->getConvert($tagId, $format);
 
-        $response = new Response();
-        $response->setContent($tagConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -531,9 +528,14 @@ class TagController extends FOSRestController
                 $ext = $format;
         }
 
-        $response->headers->set('Content-disposition', 'filename='.$tag->getTitle().'.'.$ext);
-
-        return $response;
+        if ($ext == "") {$ext = "txt";}
+        $filename = $tag->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false)
+            die("Oops! Unable to create file");
+        fputs($fh, $tagConvert);
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
+
 
 }

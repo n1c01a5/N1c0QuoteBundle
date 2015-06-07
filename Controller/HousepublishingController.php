@@ -52,7 +52,7 @@ class HousepublishingController extends FOSRestController
         if (!$quote) {
             throw new NotFoundHttpException(sprintf('Quote with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($housepublishingId);
     }
 
@@ -118,7 +118,7 @@ class HousepublishingController extends FOSRestController
         $form->setData($housepublishing);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -132,7 +132,7 @@ class HousepublishingController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0QuoteBundle:Housepublishing:editHousepublishing.html.twig",
      *  templateVar = "form"
@@ -153,7 +153,7 @@ class HousepublishingController extends FOSRestController
 
         $form = $this->container->get('n1c0_quote.form_factory.housepublishing')->createForm();
         $form->setData($housepublishing);
-    
+
         return array(
             'form'           => $form,
             'id'             => $id,
@@ -183,7 +183,7 @@ class HousepublishingController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the quote 
+     * @param string  $id      The id of the quote
      *
      * @return FormTypeInterface|View
      */
@@ -206,7 +206,7 @@ class HousepublishingController extends FOSRestController
 
                 if ($form->isValid()) {
                     $housepublishingManager->saveHousepublishing($housepublishing);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'housepublishingId' => $form->getData()->getId(),
@@ -214,11 +214,11 @@ class HousepublishingController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateHousepublishingSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_quote_housepublishing', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -251,7 +251,7 @@ class HousepublishingController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $housepublishingId      the housepublishing id
      *
      * @return FormTypeInterface|View
@@ -276,7 +276,7 @@ class HousepublishingController extends FOSRestController
                 $housepublishingManager = $this->container->get('n1c0_quote.manager.housepublishing');
                 if ($housepublishingManager->saveHousepublishing($housepublishing) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -306,7 +306,7 @@ class HousepublishingController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the quote 
+     * @param string  $id              the id of the quote
      * @param int     $housepublishingId      the housepublishing id
 
      * @return FormTypeInterface|View
@@ -331,7 +331,7 @@ class HousepublishingController extends FOSRestController
                 $housepublishingManager = $this->container->get('n1c0_quote.manager.housepublishing');
                 if ($housepublishingManager->saveHousepublishing($housepublishing) !== false) {
                     $routeOptions = array(
-                        'id' => $quote->getId(),                  
+                        'id' => $quote->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -340,7 +340,7 @@ class HousepublishingController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -444,9 +444,9 @@ class HousepublishingController extends FOSRestController
         );
 
         return array(
-            'formats'        => $formats, 
-            'id'             => $id,
-            'housepublishingId' => $housepublishingId
+            'formats'            => $formats,
+            'id'                 => $id,
+            'housepublishingId'  => $housepublishingId
         );
     }
 
@@ -463,7 +463,7 @@ class HousepublishingController extends FOSRestController
      *
      * @param int     $id                  the quote uuid
      * @param int     $housepublishingId      the housepublishing uuid
-     * @param string  $format              the format to convert quote 
+     * @param string  $format              the format to convert quote
      *
      * @return Response
      * @throws NotFoundHttpException when quote not exist
@@ -527,12 +527,18 @@ class HousepublishingController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-   
-        $response->headers->set('Content-disposition', 'filename='.$housepublishing->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $housepublishing->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false)
+            die("Oops! Unable to create file");
+        fputs($fh, $housepublishingConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
+
 
 }
