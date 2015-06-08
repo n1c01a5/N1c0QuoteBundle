@@ -55,6 +55,32 @@ abstract class QuoteManager implements QuoteManagerInterface
     }
 
     /**
+     * Get a list of definitions Quotes.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function getDefinitions($limit, $offset)
+    {
+        return $this->repository->findBy(array('definition' => 1), array('title' => 'ASC'), $limit, $offset);
+    }
+
+    /**
+     * Get a list of Quotes.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function getQuotes($limit, $offset)
+    {
+        return $this->repository->findBy(array('definition' => 0), array('createdAt' => 'DESC'), $limit, $offset);
+    }
+
+    /**
      * @param  string          $id
      * @return QuoteInterface
      */

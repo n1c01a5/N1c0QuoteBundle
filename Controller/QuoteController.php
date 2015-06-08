@@ -52,7 +52,11 @@ class QuoteController extends FOSRestController
 
         $criteria = $paramFetcher->get('definition');
 
-        return $this->container->get('n1c0_quote.manager.quote')->by(array('definition' => $criteria), $limit, $offset);
+        if($criteria == 1) {
+            return $this->container->get('n1c0_quote.manager.quote')->getDefinitions($limit, $offset);
+        } else {
+            return $this->container->get('n1c0_quote.manager.quote')->getQuotes($limit, $offset);
+        }
     }
 
     /**
