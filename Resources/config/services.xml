@@ -34,6 +34,7 @@
         <parameter key="n1c0_quote.manager.book.acl.class">N1c0\QuoteBundle\Acl\AclBookManager</parameter>
 
         <parameter key="n1c0_quote.download.quote.class">N1c0\QuoteBundle\Download\DownloadQuote</parameter>
+        <parameter key="n1c0_quote.download.authorsrc.class">N1c0\QuoteBundle\Download\DownloadAuthorsrc</parameter>
     </parameters>
 
     <services>
@@ -257,6 +258,9 @@
 
         <service id="n1c0_quote.quote.download" class="%n1c0_quote.download.quote.class%">
             <argument type="service" id="n1c0_quote.manager.quote" on-invalid="null" />
+        </service>
+        <service id="n1c0_quote.authorsrc.download" class="%n1c0_quote.download.authorsrc.class%">
+            <argument type="service" id="n1c0_quote.manager.authorsrc" on-invalid="null" />
         </service>
     </services>
 

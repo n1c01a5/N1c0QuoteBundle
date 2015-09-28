@@ -528,13 +528,27 @@ class AuthorsrcController extends FOSRestController
         }
 
         if ($ext == "") {$ext = "txt";}
-        $filename = $authorsrc->getTitle().'.'.$ext;
-        $fh = fopen('./uploads/'.$filename, "w+");
-        if($fh==false)
+
+        if (!empty($authorsrc->getFirstName())) {
+            $filename = $authorsrc->getName() . '_' . $authorsrc->getFirstName();
+        } else {
+            $filename = $authorsrc->getName();
+        }
+
+        $filename = $this->clean($filename) . '.' . $ext;
+
+        $fh = fopen('./uploads/' . $filename, "w+");
+        if($fh == false)
             die("Oops! Unable to create file");
         fputs($fh, $authorsrcConvert);
 
         return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
+    }
+
+    private function clean($string) {
+        $string = str_replace(' ', '-', $string);
+
+       return preg_replace('/[^A-Za-z0-9\-]/', '', $string);
     }
 
 }
