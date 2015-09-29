@@ -529,8 +529,10 @@ class AuthorsrcController extends FOSRestController
 
         if ($ext == "") {$ext = "txt";}
 
-        if (isset($authorsrc->getFirstName() && !empty($authorsrc->getFirstName())) {
-            $filename = $authorsrc->getName() . '_' . $authorsrc->getFirstName();
+        $firstName = $authorsrc->getFirstName();
+
+        if (isset($firstName)) {
+            $filename = $authorsrc->getName() . '_' . $firstName;
         } else {
             $filename = $authorsrc->getName();
         }
