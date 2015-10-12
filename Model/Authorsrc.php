@@ -66,9 +66,9 @@ abstract class Authorsrc implements AuthorsrcInterface
     /**
      * Should be mapped by the end developer.
      *
-     * @var QuoteInterface
+     * @var Collection
      */
-    protected $quote;
+    protected $quotes;
 
     /**
      * @return mixed
@@ -164,11 +164,11 @@ abstract class Authorsrc implements AuthorsrcInterface
     }
 
     /**
-     * @return QuoteInterface
+     * @return Collection
      */
-    public function getQuote()
+    public function getQuotes()
     {
-        return $this->quote;
+        return $this->quotes;
     }
 
     /**
@@ -176,9 +176,9 @@ abstract class Authorsrc implements AuthorsrcInterface
      *
      * @return void
      */
-    public function setQuote(QuoteInterface $quote)
+    public function addQuote(QuoteInterface $quote)
     {
-        $this->quote = $quote;
+        $this->quotes[] = $quote;
     }
 
     /**
@@ -227,3 +227,4 @@ abstract class Authorsrc implements AuthorsrcInterface
         return 'Authorsrc #'.$this->getId();
     }
 }
+

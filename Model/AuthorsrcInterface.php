@@ -43,15 +43,6 @@ Interface AuthorsrcInterface
      * @return string
      */
     public function getFirstName();
-    /**
-     * @return QuoteInterface
-     */
-    public function getQuote();
-
-    /**
-     * @param QuoteInterface $quote
-     */
-    public function setQuote(QuoteInterface $quote);
 
     /**
      * @return integer The current state of the comment
@@ -70,3 +61,4 @@ Interface AuthorsrcInterface
      */
     public function getPreviousState();
 }
+
