@@ -144,6 +144,18 @@ class AclQuoteManager implements QuoteManagerInterface
 
     /**
      * {@inheritDoc}
+     */
+    public function removeQuote(QuoteInterface $quote)
+    {
+        if (!$this->quoteAcl->canDelete($quote)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeQuote($quote);
+    }
+
+    /**
+     * {@inheritDoc}
      **/
     public function findQuoteById($id)
     {

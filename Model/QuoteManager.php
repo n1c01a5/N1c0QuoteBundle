@@ -132,10 +132,30 @@ abstract class QuoteManager implements QuoteManagerInterface
     }
 
     /**
+     * Removes a quote.
+     *
+     * @param QuoteInterface $quote
+     */
+    public function removeQuote(QuoteInterface $quote)
+    {
+        $this->doRemoveQuote($quote);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of the Quote.
      *
      * @abstract
      * @param QuoteInterface $quote
      */
     abstract protected function doSaveQuote(QuoteInterface $quote);
+
+    /**
+     * Removes the Quote.
+     *
+     * @abstract
+     * @param QuoteInterface $Quote
+     */
+    abstract protected function doRemoveQuote(QuoteInterface $Quote);
 }

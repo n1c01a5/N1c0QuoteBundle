@@ -95,6 +95,17 @@ class QuoteManager extends BaseQuoteManager
     }
 
     /**
+     * Removes a quote
+     *
+     * @param QuoteInterface $Quote
+     */
+    protected function doRemoveQuote(QuoteInterface $Quote)
+    {
+        $this->em->remove($Quote);
+        $this->em->flush();
+    }
+
+    /**
      * Returns the fully qualified element quote class name
      *
      * @return string

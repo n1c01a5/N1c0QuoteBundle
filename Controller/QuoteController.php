@@ -325,6 +325,31 @@ class QuoteController extends FOSRestController
     }
 
     /**
+     * Removes a quote.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the quote id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteQuoteAction(Request $request, $id)
+    {
+        $quoteManager = $this->container->get('n1c0_quote.manager.quote');
+        $quote = $this->getOr404($id);
+
+        $quoteManager->removeQuote($quote);
+
+        return $this->routeRedirectView('api_1_get_quotes', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Fetch a Quote or throw an 404 Exception.
      *
      * @param mixed $id
